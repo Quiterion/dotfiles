@@ -58,7 +58,7 @@ font-2 = Font Awesome 5 Free Regular:style=regular:size=14;-2
 font-3 = Unifont:style=Sans-Serif:size=14;0
 font-4 = siji:pixelsize=14;1
 
-modules-left = i3 pulseaudio spotify filesystem homesystem 
+modules-left = i3 pulseaudio mpd filesystem homesystem 
 modules-center = date
 modules-right = xbacklight xkeyboard memory cpu temperature battery wlan eth ext-ipv4 
 tray-position = right
@@ -207,6 +207,12 @@ format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
 ;icon-play = î
 ;icon-pause = î
 ;icon-next = î
+
+icon-prev = <<
+icon-stop = !
+icon-play = |>
+icon-pause = ||
+icon-next = >>
 
 label-song-maxlen = 25
 label-song-ellipsis = true
