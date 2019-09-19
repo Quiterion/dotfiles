@@ -1,6 +1,3 @@
 
-rofi.combi-modi:                window,run,ssh
-rofi.modi:                      combi
-rofi.font:                      hack 18
 rofi.combi-hide-mode-prefix:    True
-rofi.theme:                     solarized-darker
+rofi.theme:                     material

@@ -20,17 +20,68 @@
 ;background = #222
 background = #aa
 ;background-alt = #444
-background-alt = #222
+background-alt = #666
 foreground = #dfdfdf
 foreground-alt = #555
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/mybar]
+[bar/main]
 monitor = ${env:MONITOR:eDP-1}
 width = 100%
-height = 34
+height = 18
+;offset-x = 1%
+;offset-y = 1%
+radius = 6.0
+fixed-center = true
+bottom = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+
+border-size = 4
+border-color = #00000000
+
+padding-left = 2
+padding-right = 2
+
+module-margin-left = 1
+module-margin-right = 2
+
+font-0 = Hack:pixelsize=9;1
+font-1 = PowerlineSymbols:pixelsize=12;1
+font-2 = siji:pixelsize=12;1
+font-3 = Unifont:style=Sans-Serif:size=12;0
+
+modules-left = pulseaudio filesystem homesystem mpd 
+modules-center = date
+modules-right = xkeyboard wlan eth ext-ipv4 
+tray-position = right
+tray-padding = 2
+;tray-background = #0063ff
+
+;wm-restack = bspwm
+;wm-restack = i3
+
+;override-redirect = true
+
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[bar/bottom]
+monitor = ${env:MONITOR:eDP-1}
+width = 100%
+height = 18
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 6.0
@@ -46,29 +97,28 @@ line-color = #f00
 border-size = 4
 border-color = #00000000
 
-padding-left = 0
+padding-left = 2
 padding-right = 2
 
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Hack:pixelsize=14;1
-font-1 = PowerlineSymbols:pixelsize=14;1
-font-2 = Font Awesome 5 Free Regular:style=regular:size=14;-2
-font-3 = Unifont:style=Sans-Serif:size=14;0
-font-4 = siji:pixelsize=14;1
+font-0 = Hack:pixelsize=9;1
+font-1 = PowerlineSymbols:pixelsize=12;1
+font-2 = siji:pixelsize=12;1
+font-3 = Unifont:style=Sans-Serif:size=12;0
 
-modules-left = i3 pulseaudio mpd filesystem homesystem 
-modules-center = date
-modules-right = xbacklight xkeyboard memory cpu temperature battery wlan eth ext-ipv4 
+modules-left = backlight-acpi battery0 battery1
+modules-center = i3
+modules-right = memory cpu temperature 
 tray-position = right
 tray-padding = 2
 ;tray-background = #0063ff
 
 ;wm-restack = bspwm
-wm-restack = i3
+;wm-restack = i3
 
-override-redirect = true
+;override-redirect = true
 
 ;scroll-up = bspwm-desknext
 ;scroll-down = bspwm-deskprev
@@ -79,13 +129,6 @@ override-redirect = true
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-[module/spotify]
-type = custom/script
-interval = 1
-format-prefix = "song: "
-format = <label>
-exec = python $HOME/MyScripts/polybar-spotify/spotify_status.py -f '{artist} - {song}'
-;format-underline = #1db954
 
 [module/ext-ipv4]
 type = custom/script
@@ -221,18 +264,18 @@ label-song-ellipsis = true
 type = internal/xbacklight
 
 format = <label> <bar>
-label = BL
+label = BL: %percentage%%
 
 bar-width = 10
 bar-indicator = |
 bar-indicator-foreground = #fff
 bar-indicator-font = 2
 ;bar-fill = â
-bar-fill = +
+bar-fill = -
 bar-fill-font = 2
 bar-fill-foreground = #9f78e1
 ;bar-empty = â
-bar-empty = =
+bar-empty = -
 bar-empty-font = 2
 bar-empty-foreground = ${colors.foreground-alt}
 
@@ -261,7 +304,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp1s0
+interface = wlp3s0
 interval = 3.0
 
 format-connected = <label-connected>
@@ -288,7 +331,7 @@ label-disconnected-foreground = ${colors.foreground-alt}
 [module/eth]
 type = internal/network
 ;interface = net0
-interface = wlp1s0
+interface = wlp3s0
 interval = 3.0
 
 ;format-connected-underline = #55aa55
@@ -381,19 +424,19 @@ bar-volume-empty-foreground = ${colors.foreground}
 
 [module/battery]
 type = internal/battery
-battery = BAT1
+;battery = BAT1
 adapter = ADP1
 full-at = 98
 
-format-charging-prefix = "(chr) batt: "
+format-charging-prefix = "(chr) batt: " 
 format-charging = <label-charging>
 ;format-charging-underline = #55aa55
 
-format-discharging-prefix =  "batt: "
+format-discharging-prefix = "batt: " 
 format-discharging = <label-discharging>
 ;format-discharging-underline = #ffb52a
 
-format-full-prefix = "batt: "
+format-full-prefix = ${self.format-discharging-prefix} 
 format-full = <label-full>
 ;format-full-prefix-foreground = ${colors.foreground-alt}
 ;format-full-underline = #55aa55
@@ -414,6 +457,18 @@ animation-discharging-1 = î·
 animation-discharging-2 = î¶
 ;animation-discharging-foreground = ${colors.foreground-alt}
 animation-discharging-framerate = 750
+
+[module/battery0]
+inherit = module/battery
+battery = BAT0
+format-charging-prefix = "(chr) batt0: "
+format-discharging-prefix = "batt0: "
+
+[module/battery1]
+inherit = module/battery
+battery = BAT1
+format-charging-prefix = "(chr) batt1: "
+format-discharging-prefix = "batt1: "
 
 [module/temperature]
 type = internal/temperature

@@ -8,6 +8,7 @@
 # To get a config file with the same key positions, but for your current
 # layout, use the i3-config-wizard
 
+# Set modifier here, to be used throughout config
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -19,7 +20,7 @@ set $mod Mod4
 ## font pango:DejaVu Sans Mono 18
 
 # Try this font: 2019-06-27
-font pango:Hack 18
+font pango:Hack 12
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -53,7 +54,7 @@ bindsym $mod+Shift+q kill
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi -show combi
+bindsym $mod+d exec rofi -modi "window#run#ssh" -show run
 
 # change focus
 bindsym $mod+$left focus left
@@ -211,21 +212,38 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 ##bar {
-##        status_command i3blocks
+##    status_command i3status
 ##}
 
 # Personal config
 
-gaps inner 25
-gaps outer 30
+# It is called i3-gaps after all
+gaps inner 10
+gaps outer 15
+
+# It's rounded too lol
+border_radius 10
+
+# Bind volume keys
+bindsym $mod+F2 exec pamixer -d 10
+bindsym $mod+F3 exec pamixer -i 10
+
+# Bind brightness keys
+bindsym $mod+F5 exec xbacklight -dec 10
+bindsym $mod+F6 exec xbacklight -inc 10 
+
+# Lock desktop with keybind
+bindsym $mod+x exec i3lock -i /home/quiterion/Pictures/Wallpapers/neon-nights.png -p win
+
+# Zen-ify windows by floating and resizing them
+bindsym $mod+z floating enable; resize set 900 600; move position center
 
 # Remove borders for i3-gaps
 for_window [class=".*"] border pixel 0
 hide_edge_borders both
 
-# Wallpaper
-#exec_always --no-startup-id feh --bg-fill $HOME/Pictures/desktops/cyberpunk-wallpaper3.png
-exec_always --no-startup-id feh --bg-fill $HOME/Pictures/desktops/cyberpunk-wallpaper4.png
+# Wallpaper (unnecessary because of pywal)
+exec_always --no-startup-id feh --bg-fill $HOME/Pictures/Wallpapers/default-wallpaper.png
 
 # Launch polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
