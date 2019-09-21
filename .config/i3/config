@@ -242,7 +242,7 @@ bindsym $mod+z floating enable; resize set 900 600; move position center
 for_window [class=".*"] border pixel 0
 hide_edge_borders both
 
-# Wallpaper (unnecessary because of pywal)
+# Wallpaper
 exec_always --no-startup-id feh --bg-fill $HOME/Pictures/Wallpapers/default-wallpaper.png
 
 # Launch polybar
