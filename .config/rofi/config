@@ -1,3 +1,7 @@
-
+rofi.display-run:		programs
+rofi.display-window:		"windows";
+rofi.display-ssh:		"ssh";
+rofi.show-icons:		true;
+rofi.icon-theme:		"Adwaita";
 rofi.combi-hide-mode-prefix:    True
-rofi.theme:                     flat-blur
+rofi.theme:                     .cache/wal/colors-rofi-dark.rasi

@@ -13,6 +13,9 @@ if [ -f ~/.aliases ]; then
 . ~/.aliases
 fi
 
+# Export custom scripts to path
+export PATH="$HOME/.local/bin:$PATH"
+
 # Use custom rc for ranger
 export RANGER_LOAD_DEFAULT_RC='FALSE'
 

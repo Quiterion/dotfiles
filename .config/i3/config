@@ -1,6 +1,5 @@
 # i3 config file (v4)
-#
-# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+# Please see https://i3wm.org/docs/userguide.html for a complete reference
 #
 # This config file uses keycodes (bindsym) and was written for the QWERTY
 # layout.
@@ -13,13 +12,6 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-## font pango:monospace 8
-
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-## font pango:DejaVu Sans Mono 18
-
-# Try this font: 2019-06-27
 font pango:Hack 12
 
 # Before i3 v4.8, we used to recommend this one as the default:
@@ -31,10 +23,10 @@ font pango:Hack 12
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
-set $up l
-set $down k
-set $left j
-set $right semicolon
+set $up k
+set $down j
+set $left h
+set $right l
 
 # use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -80,19 +72,16 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
-bindsym $mod+h split h
-
-# split in vertical orientation
-bindsym $mod+v split v
-
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+t layout toggle split
+
+# change between vertical/horizontal split without affecting old windows
+bindsym $mod+e split toggle
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -104,7 +93,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+Shift+d focus child
 
 # move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -209,44 +198,61 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-##bar {
-##    status_command i3status
-##}
-
-# Personal config
+## Personal config
 
 # It is called i3-gaps after all
 gaps inner 10
-gaps outer 15
+gaps horizontal 30
 
 # It's rounded too lol
-border_radius 10
+#border_radius 10
 
+# Border Settings
+default_border pixel 0
+hide_edge_borders both
+
+## Custom bindings
 # Bind volume keys
 bindsym $mod+F2 exec pamixer -d 10
 bindsym $mod+F3 exec pamixer -i 10
 
 # Bind brightness keys
 bindsym $mod+F5 exec xbacklight -dec 10
-bindsym $mod+F6 exec xbacklight -inc 10 
+bindsym $mod+F6 exec xbacklight -inc 10
 
-# Lock desktop with keybind
-bindsym $mod+x exec i3lock -i /home/quiterion/Pictures/Wallpapers/neon-nights.png -p win
+# Lock desktop with keybind (closing the lid suspends the system and also runs this script)
+bindsym $mod+x exec /home/quiterion/.local/bin/i3locker.sh
 
 # Zen-ify windows by floating and resizing them
-bindsym $mod+z floating enable; resize set 900 600; move position center
+bindsym $mod+Shift+z floating enable; resize set 1280 720; move position center
 
-# Remove borders for i3-gaps
-for_window [class=".*"] border pixel 0
-hide_edge_borders both
+# Center floating windows
+bindsym $mod+z move position center
+
+# Open Arch RSS feed before -Syu'ing
+bindsym $mod+Shift+a exec kitty -e "/usr/bin/newsboat"
+
+# Open new LaTeX note docs for classes
+bindsym $mod+Shift+o exec /home/quiterion/.local/bin/skool-latex
+
+# Reset colourscheme for programs like WeeChat
+bindsym $mod+Shift+p exec wal -neqR
+
+# Open ranger in wallpaper directory
+bindsym $mod+Shift+w exec kitty "/home/quiterion/.local/bin/ranger-wallpaper"
+
+# Open ncmpcpp (music player)
+bindsym $mod+Shift+n exec kitty -e "/usr/bin/ncmpcpp"
+## End custom bindings
 
 # Wallpaper
-exec_always --no-startup-id feh --bg-fill $HOME/Pictures/Wallpapers/default-wallpaper.png
+exec_always --no-startup-id feh --no-fehbg --bg-fill $HOME/Pictures/Wallpapers/wallpaper
 
 # Launch polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Launch compton
 exec_always --no-startup-id $HOME/.config/compton/launch.sh
+
+# Launch dunst (notification daemon)
+exec --no-startup-id /usr/bin/dunst

@@ -1,6 +1,1 @@
-# -- THEME AUTO-WRITTEN BY gtk-theme-switch2 DO NOT EDIT
-include "/usr/share/themes/Arc-Dark/gtk-2.0/gtkrc"
-
-include "/home/quiterion/.gtkrc-2.0.mine"
-
-# -- THEME AUTO-WRITTEN BY gtk-theme-switch2 DO NOT EDIT
+include "/usr/share/themes/Breeze-Dark/gtk-2.0/gtkrc"

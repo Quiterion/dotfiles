@@ -1,19 +1,33 @@
 # bash aliases taken from previous Ubuntu & current Arch install
 # Deprecated aliases are commented out
 
-alias icat='kitty +kitten icat'
-alias please='sudo'
-#alias fuck='nordvpn d && nordvpn c AU'
-#alias zoop="echo '👉😎👉 ~Zoop!~' | lolcat"
-alias moo='fortune | cowsay | lolcat'
-alias tux='fortune | cowsay -f tux | lolcat'
-#alias gnu='fortune | cowsay -f gnu | lolcat'
-alias timekill="rtv --enable-media -s '/random/top-all'"
-#alias besterm='export FBTERM_BACKGROUND_IMAGE=1 && cat $HOME/Pictures/desktops/space.fbimg > /dev/fb0; fbterm -s 28 -n "Hack"'
-#alias whtfnt='echo -en "\e]P7ffffff" && clear'
-alias davefetch='neofetch --ascii "$(cat $HOME/Pictures/ilovedos_ascii.txt)"'
-alias tuxfetch='neofetch --ascii "$(cat $HOME/Pictures/linux_ascii.txt)"'
-alias dots='/usr/bin/git --git-dir=$HOME/.dots --work-tree=$HOME'
-#alias lock="i3lock -i $HOME/Wallpapers/neon-nights.png -p win"
-alias ls='ls --color=auto'
+alias icat="kitty +kitten icat"
+alias please="sudo"
 
+#alias fuck="nordvpn d && nordvpn c AU"
+#alias zoop="echo "👉😎👉 ~Zoop!~" | lolcat"
+
+alias moo="fortune | cowsay | lolcat"
+alias tux="fortune | cowsay -f tux | lolcat"
+#alias gnu="fortune | cowsay -f gnu | lolcat"
+
+alias timekill="rtv --enable-media -s '/random/top-all'"
+
+#alias besterm="export FBTERM_BACKGROUND_IMAGE=1 && cat $HOME/Pictures/desktops/space.fbimg > /dev/fb0; fbterm -s 28 -n "Hack""
+#alias whtfnt="echo -en "\e]P7ffffff" && clear"
+
+alias davefetch='neofetch --ascii "$(cat $HOME/Pictures/asciis/ilovedos_ascii.txt)"'
+alias tuxfetch='neofetch --ascii "$(cat $HOME/Pictures/asciis/linux_ascii.txt)"'
+
+alias dots="/usr/bin/git --git-dir=$HOME/.dots --work-tree=$HOME"
+
+#alias lock="i3lock -i $HOME/Wallpapers/neon-nights.png -p win"
+
+alias ls="ls --color=auto"
+alias feh="feh --no-fehbg -B black"
+
+alias i3c="nvim ~/.config/i3/config"
+alias cmc="nvim ~/.config/compton/compton.conf"
+alias ktc="nvim ~/.config/kitty/kitty.conf"
+alias rw="ranger ~/Pictures/Wallpapers"
+alias rs="ranger ~/Skool/"

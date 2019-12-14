@@ -17,17 +17,16 @@
 ;==========================================================
 
 [colors]
-;background = #222
 background = #aa
-;background-alt = #444
-background-alt = #666
+background-alt = #FF000000
+background-alt2 = #666
 foreground = #dfdfdf
 foreground-alt = #555
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/main]
+[bar/top]
 monitor = ${env:MONITOR:eDP-1}
 width = 100%
 height = 18
@@ -37,16 +36,16 @@ radius = 0.0
 fixed-center = true
 bottom = false
 
-#background = ${colors.background}
-background = #FF000000
+# Change to ${colors.background-alt} for black bg
+background = ${colors.background}
+
 foreground = ${colors.foreground}
 
 line-size = 3
 line-color = #f00
 
 border-size = 4
-#border-color = #00000000
-border-color = #FF000000
+border-color = ${self.background}
 
 padding-left = 2
 padding-right = 2
@@ -59,9 +58,9 @@ font-1 = PowerlineSymbols:pixelsize=12;1
 font-2 = siji:pixelsize=12;1
 font-3 = Unifont:style=Sans-Serif:size=12;0
 
-modules-left = pulseaudio filesystem homesystem mpd 
+modules-left = pulseaudio filesystem homesystem mpd
 modules-center = date
-modules-right = xkeyboard wlan eth ext-ipv4 
+modules-right = xkeyboard wlan eth ext-ipv4
 tray-position = right
 tray-padding = 2
 ;tray-background = #0063ff
@@ -90,14 +89,16 @@ radius = 0.0
 fixed-center = true
 bottom = true
 
+# Change to ${colors.background-alt} for black bg
 background = ${colors.background}
+
 foreground = ${colors.foreground}
 
 line-size = 3
 line-color = #f00
 
 border-size = 4
-border-color = #00000000
+border-color = ${self.background}
 
 padding-left = 2
 padding-right = 2
@@ -112,7 +113,7 @@ font-3 = Unifont:style=Sans-Serif:size=12;0
 
 modules-left = backlight-acpi battery0 battery1
 modules-center = i3
-modules-right = memory cpu temperature 
+modules-right = memory cpu temperature
 tray-position = right
 tray-padding = 2
 ;tray-background = #0063ff
@@ -186,7 +187,7 @@ label-unmounted = home: not mounted
 type = internal/bspwm
 
 label-focused = %index%
-label-focused-background = ${colors.background-alt}
+label-focused-background = ${colors.background-alt2}
 ;label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
@@ -311,7 +312,7 @@ interval = 3.0
 
 format-connected = <label-connected>
 ;format-connected-underline = #9f78e1
-label-connected = %essid% 
+label-connected = %essid%
 
 format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
@@ -430,15 +431,15 @@ type = internal/battery
 adapter = ADP1
 full-at = 98
 
-format-charging-prefix = "(chr) batt: " 
+format-charging-prefix = "(chr) batt: "
 format-charging = <label-charging>
 ;format-charging-underline = #55aa55
 
-format-discharging-prefix = "batt: " 
+format-discharging-prefix = "batt: "
 format-discharging = <label-discharging>
 ;format-discharging-underline = #ffb52a
 
-format-full-prefix = ${self.format-discharging-prefix} 
+format-full-prefix = ${self.format-discharging-prefix}
 format-full = <label-full>
 ;format-full-prefix-foreground = ${colors.foreground-alt}
 ;format-full-underline = #55aa55

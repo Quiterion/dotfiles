@@ -1,0 +1,26 @@
+#!/bin/bash
+
+## Format: {url} {artist} {title}
+
+## TODOS:
+## Iterate songs while downloading for explicit ordering	[ ]
+## Select URLs within the command line				[ ]
+
+plunder () {
+	artist=${2//\ /\_}
+	title=${3//\ /\_}
+	if [ ! -d "$HOME/Music/$artist" ]; then
+		mkdir "$HOME/Music/$artist"
+	fi
+	youtube-dl -x --audio-format mp3 -o "$HOME/Music/$artist/$artist-$title.%(ext)s" "$1"
+}
+
+if [ "$#" -eq 3 ]; then
+	plunder "$1" "$2" "$3"
+elif [ "$#" -eq 1 ]; then
+	read -rp "Enter artist name: " artist_inp
+	read -rp "Enter title name: " title_inp
+	plunder "$1" "$artist_inp" "$title_inp"
+else
+	echo "Incorrect number of aguments!"
+fi

@@ -1,0 +1,2 @@
+#!/bin/bash
+ls /home/quiterion/Skool/ | rofi -dmenu | xargs -I {} kitty -e "/home/quiterion/Skool/{}/newlec.sh"
