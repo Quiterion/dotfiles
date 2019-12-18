@@ -14,6 +14,7 @@ Plug 'sirver/ultisnips'
 Plug 'junegunn/goyo.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/nerdtree'
 call plug#end()
 
 set bg=dark
@@ -45,8 +46,10 @@ set noshowcmd noruler " Reportedly makes neovim faster
 	syntax on
 	set encoding=utf-8
 	set number relativenumber
+
 " Enable autocompletion:
 	set wildmode=longest,list,full
+
 " Disables automatic commenting on newline:
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
@@ -58,6 +61,11 @@ set noshowcmd noruler " Reportedly makes neovim faster
 
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 	set splitbelow splitright
+
+" Nerd tree
+	map <leader>n :NERDTreeToggle<CR>
+	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+	let NERDTreeShowHidden=1
 
 " Shortcutting split navigation, saving a keypress:
 	map <C-h> <C-w>h

@@ -17,6 +17,8 @@ settings:
     global: blue
   colors.statusbar.private.bg:
     global: blue
+  content.desktop_capture:
+    https://discordapp.com: true
   content.headers.user_agent:
     global: null
   content.media_capture:

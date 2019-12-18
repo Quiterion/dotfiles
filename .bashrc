@@ -18,6 +18,3 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Use custom rc for ranger
 export RANGER_LOAD_DEFAULT_RC='FALSE'
-
-# Use dope ass colourscheme
-(cat ~/.cache/wal/sequences &)

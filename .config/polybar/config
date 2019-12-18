@@ -19,7 +19,7 @@
 [colors]
 background = #aa
 background-alt = #FF000000
-background-alt2 = #666
+background-alt2 = ${xrdb:color2:#666}
 foreground = #dfdfdf
 foreground-alt = #555
 primary = #ffb52a
@@ -37,7 +37,7 @@ fixed-center = true
 bottom = false
 
 # Change to ${colors.background-alt} for black bg
-background = ${colors.background}
+background = ${colors.background-alt}
 
 foreground = ${colors.foreground}
 
@@ -135,10 +135,9 @@ cursor-scroll = ns-resize
 
 [module/ext-ipv4]
 type = custom/script
-;format-underline = #9f78e1
 exec = $HOME/.config/polybar/pub-ipv4.sh
 label = %output%
-tail = true
+interval=5
 
 [module/xwindow]
 type = internal/xwindow

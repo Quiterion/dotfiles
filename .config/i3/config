@@ -211,7 +211,9 @@ gaps horizontal 30
 default_border pixel 0
 hide_edge_borders both
 
+
 ## Custom bindings
+
 # Bind volume keys
 bindsym $mod+F2 exec pamixer -d 10
 bindsym $mod+F3 exec pamixer -i 10
@@ -243,7 +245,9 @@ bindsym $mod+Shift+w exec kitty "/home/quiterion/.local/bin/ranger-wallpaper"
 
 # Open ncmpcpp (music player)
 bindsym $mod+Shift+n exec kitty -e "/usr/bin/ncmpcpp"
-## End custom bindings
+
+
+## Start other applications
 
 # Wallpaper
 exec_always --no-startup-id feh --no-fehbg --bg-fill $HOME/Pictures/Wallpapers/wallpaper

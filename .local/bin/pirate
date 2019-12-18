@@ -9,9 +9,6 @@
 plunder () {
 	artist=${2//\ /\_}
 	title=${3//\ /\_}
-	if [ ! -d "$HOME/Music/$artist" ]; then
-		mkdir "$HOME/Music/$artist"
-	fi
 	youtube-dl -x --audio-format mp3 -o "$HOME/Music/$artist/$artist-$title.%(ext)s" "$1"
 }
 
