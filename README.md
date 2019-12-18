@@ -2,9 +2,9 @@
 Dotfiles for my i3 Arch setup, uploaded for redundancy and easy installation on new machines.
 
 ## Preview
-![desktop screenshot](https://imgur.com/sHUuHen)
+![desktop screenshot](https://i.imgur.com/sHUuHen.png)
 
-More information at [reddit.com](https://www.reddit.com/r/unixporn/comments/eahvtx/i3gaps_vapor/)
+More information (including wallpaper) at [reddit.com](https://www.reddit.com/r/unixporn/comments/eahvtx/i3gaps_vapor/)
 ## Installation
 Clone the repo into your home folder, copy or symlink dotfiles as you wish
 
