@@ -5,7 +5,7 @@
 
 # Smoothing mode. Can be 'normal', 'scientific' or 'waves'. DEPRECATED as of 0.6.0
 ; mode = normal
- 
+
 # Accepts only non-negative values.
 ; framerate = 60
 
@@ -45,7 +45,7 @@
 #
 # For pulseaudio 'source' will be the source. Default: 'auto', which uses the monitor source of the default sink
 # (all pulseaudio sinks(outputs) have 'monitor' sources(inputs) associated with them).
-# 
+#
 # For alsa 'source' will be the capture device.
 # For fifo 'source' will be the path to fifo-file.
 ; method = pulse
@@ -61,7 +61,7 @@
 
 [output]
 
-# Ouput method. Can be 'ncurses', 'noncurses' or 'raw'. 
+# Ouput method. Can be 'ncurses', 'noncurses' or 'raw'.
 # 'noncurses' is for systems that does not suport ncurses.
 # 'raw' is a 16 bit data stream of the bar heights that can be used to send to other applications.
 # 'raw' defaults to 200 bars, which can be adjusted in the 'bars' option above.
@@ -102,7 +102,7 @@
 # Gradient mode, only hex defined colors are supported, background must also be defined in hex
 # or remain commented out. 1 = on, 0 = off. Warning: for certain terminal emulators cava will
 # not able to restore color definitions on exit, simply restart your terminal to restore colors.
-; gradient = 0
+; gradient = 1
 ; gradient_color_1 = '#0099ff'
 ; gradient_color_2 = '#ff3399'
 
@@ -114,7 +114,7 @@
 # Higher values means smoother, but less precise. 0 to disable.
 ; integral = 70
 
-# Disables or enables the so-called "Monstercat smoothing" with or without "waves". Set to 0 to disable. 
+# Disables or enables the so-called "Monstercat smoothing" with or without "waves". Set to 0 to disable.
 ; monstercat = 1
 ; waves = 0;
 

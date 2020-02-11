@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 # Terminate already running bar instances
 killall -q polybar
@@ -9,11 +9,11 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 # Launch Polybar (on multiple monitors if detected)
 if type "xrandr"; then
   for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-
-    MONITOR=$m polybar bottom  -r &
+    MONITOR=$m polybar top &
+    MONITOR=$m polybar bottom &
   done
 else
-  polybar bottom  -r &
+  polybar top &
+  polybar bottom &
 fi
-
-echo "Bars launched..."
+echo "Polybar launched..."

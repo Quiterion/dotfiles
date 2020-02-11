@@ -5,7 +5,7 @@ alias icat="kitty +kitten icat"
 alias please="sudo"
 
 #alias fuck="nordvpn d && nordvpn c AU"
-#alias zoop="echo "👉😎👉 ~Zoop!~" | lolcat"
+alias zoop="echo '👉😎👉 ~Zoop!~' | lolcat"
 
 alias moo="fortune | cowsay | lolcat"
 alias tux="fortune | cowsay -f tux | lolcat"
@@ -24,10 +24,4 @@ alias dots="/usr/bin/git --git-dir=$HOME/.dots --work-tree=$HOME"
 #alias lock="i3lock -i $HOME/Wallpapers/neon-nights.png -p win"
 
 alias ls="ls --color=auto"
-alias feh="feh --no-fehbg -B black"
-
-alias i3c="nvim ~/.config/i3/config"
-alias cmc="nvim ~/.config/compton/compton.conf"
-alias ktc="nvim ~/.config/kitty/kitty.conf"
-alias rw="ranger ~/Pictures/Wallpapers"
 alias rs="ranger ~/Skool/"

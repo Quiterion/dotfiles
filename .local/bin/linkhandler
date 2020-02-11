@@ -13,7 +13,7 @@ case "$1" in
 	*mkv|*webm|*mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtu.be*|*invidio.us/watch*|*invidio.us/playlist*|*hooktube.com*|*bitchute.com*|*gif)
 		setsid mpv --ytdl-format=bestvideo+bestaudio/best --loop=inf --input-ipc-server=/tmp/mpvsoc$(date +%s) -quiet "$1" >/dev/null 2>&1 & ;;
 	*png|*jpg|*jpe|*jpeg)
-		curl -sL "$1" > "/tmp/$(echo "$1" | sed "s/.*\///")" && feh -B black "/tmp/$(echo "$1" | sed "s/.*\///")"  >/dev/null 2>&1 & ;;
+		curl -sL "$1" > "/tmp/$(echo "$1" | sed "s/.*\///")" && feh -B black -Z "/tmp/$(echo "$1" | sed "s/.*\///")"  >/dev/null 2>&1 & ;;
 	*mp3*|*flac|*opus)
 		setsid mpv --ytdl-format=bestaudio/best --input-ipc-server=/tmp/mpvsoc$(date +%s) -quiet "$1" >/dev/null 2>&1 & ;;
 	*)

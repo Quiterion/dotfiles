@@ -1,1 +1,3 @@
-include "/usr/share/themes/Breeze-Dark/gtk-2.0/gtkrc"
+gtk-font-name = "Cantarell 11"
+gtk-icon-theme-name = "Papirus-Dark"
+gtk-theme-name = "Arc-Dark"

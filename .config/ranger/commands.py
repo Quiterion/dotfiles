@@ -95,6 +95,7 @@ class bg(Command):
         # Actually set the image as the default background
         subprocess.call(f"wal -enqi {target_filename}", shell=True)
         subprocess.call(f"ln -sf {target_filename} ~/Pictures/Wallpapers/wallpaper", shell=True)
+        subprocess.call(f"xrdb -merge ~/.Xresources", shell=True)
         subprocess.call(f"i3-msg restart", shell=True)
 
 

@@ -17,10 +17,13 @@ settings:
     global: blue
   colors.statusbar.private.bg:
     global: blue
+  content.canvas_reading:
+    global: false
   content.desktop_capture:
     https://discordapp.com: true
   content.headers.user_agent:
-    global: null
+    global: Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko)
+      {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}
   content.media_capture:
     https://discordapp.com: true
   content.notifications:
@@ -29,12 +32,21 @@ settings:
     https://mail.google.com?extsrc=mailto&url=%25s: true
   downloads.position:
     global: bottom
-  fonts.monospace:
-    global: Hack
+  fonts.completion.category:
+    global: bold default_size default_family
+  fonts.completion.entry:
+    global: default_size default_family
+  fonts.default_family:
+    global:
+    - TerminessTTF Nerd Font
+  fonts.default_size:
+    global: 12pt
   fonts.prompts:
-    global: 11pt monospace
+    global: 12pt default_family
+  fonts.statusbar:
+    global: default_size default_family
   fonts.tabs:
-    global: 10pt monospace
+    global: 12pt default_family
   statusbar.padding:
     global:
       bottom: 0

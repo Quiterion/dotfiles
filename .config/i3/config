@@ -12,7 +12,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Hack 12
+font pango:TerminessTTF Nerd Font 12
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -33,7 +33,6 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
-#bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -198,18 +197,43 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+
 ## Personal config
 
+# Set colors from Xresources
+# Change 'color7' and 'color2' to whatever colors you want i3 to use
+# from the generated scheme.
+# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
+# it fails to get colors from Xresources.
+set_from_resource $fg i3wm.color7 #f0f0f0
+set_from_resource $bg i3wm.color2 #f0f0f0
+set_from_resource $bg2 i3wm.color4 #f0f0f0
+set_from_resource $bg3 i3wm.color3 #f0f0f0
+set_from_resource $bg4 i3wm.color5 #f0f0f0
+
+# class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg2    $fg  $bg       $bg
+client.unfocused        $bg     $bg3    $fg  $bg       $bg
+client.urgent           $bg     $bg4    $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
+
 # It is called i3-gaps after all
-gaps inner 10
-gaps horizontal 30
+gaps inner 15
+gaps horizontal 55
+# For overridden polybar
+gaps bottom 55
+gaps top 45
 
 # It's rounded too lol
-#border_radius 10
+##border_radius 10
 
 # Border Settings
 default_border pixel 0
-hide_edge_borders both
+default_floating_border pixel 0
+#hide_edge_borders vertical
 
 
 ## Custom bindings
@@ -217,6 +241,19 @@ hide_edge_borders both
 # Bind volume keys
 bindsym $mod+F2 exec pamixer -d 10
 bindsym $mod+F3 exec pamixer -i 10
+
+# Toggle mute
+bindsym $mod+F1 exec pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo toggle
+
+# Mute microphone
+bindsym $mod+F4 exec pactl set-source-mute alsa_input.pci-0000_00_1f.3.analog-stereo toggle
+
+# Toggle music paused
+bindsym $mod+p exec mpc toggle
+
+# Skip to next and previous music track
+bindsym $mod+F10 exec mpc prev
+bindsym $mod+F11 exec mpc next
 
 # Bind brightness keys
 bindsym $mod+F5 exec xbacklight -dec 10
@@ -232,20 +269,34 @@ bindsym $mod+Shift+z floating enable; resize set 1280 720; move position center
 bindsym $mod+z move position center
 
 # Open Arch RSS feed before -Syu'ing
-bindsym $mod+Shift+a exec kitty -e "/usr/bin/newsboat"
+bindsym $mod+Shift+a exec st -e "/usr/bin/newsboat"
 
 # Open new LaTeX note docs for classes
 bindsym $mod+Shift+o exec /home/quiterion/.local/bin/skool-latex
+
+# Open a config file with fzf and vim (custom Kitty startup session)
+bindsym $mod+Shift+i exec st -e "/home/quiterion/.local/bin/config-editoring"
 
 # Reset colourscheme for programs like WeeChat
 bindsym $mod+Shift+p exec wal -neqR
 
 # Open ranger in wallpaper directory
-bindsym $mod+Shift+w exec kitty "/home/quiterion/.local/bin/ranger-wallpaper"
+bindsym $mod+Shift+w exec st -e "/home/quiterion/.local/bin/ranger-wallpaper"
 
 # Open ncmpcpp (music player)
-bindsym $mod+Shift+n exec kitty -e "/usr/bin/ncmpcpp"
+bindsym $mod+Shift+n exec st -e "/usr/bin/ncmpcpp"
 
+# Start random background animation
+bindsym $mod+u exec wala z
+
+# Kill random background animation
+bindsym $mod+Shift+u exec pkill mplayer
+
+# Enable second monitor
+bindsym $mod+v exec /home/quiterion/.screenlayout/dual.sh
+
+# Disable second monitor
+bindsym $mod+Shift+v exec /home/quiterion/.screenlayout/single.sh
 
 ## Start other applications
 
@@ -254,9 +305,13 @@ exec_always --no-startup-id feh --no-fehbg --bg-fill $HOME/Pictures/Wallpapers/w
 
 # Launch polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+#exec --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Launch compton
 exec_always --no-startup-id $HOME/.config/compton/launch.sh
+
+# Hide mouse cursor
+exec_always --no-startup-id /usr/bin/unclutter
 
 # Launch dunst (notification daemon)
 exec --no-startup-id /usr/bin/dunst

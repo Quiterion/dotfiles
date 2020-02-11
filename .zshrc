@@ -16,6 +16,13 @@ if [ $TERM != 'linux' ]; then
 	[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 fi
 
+## Custom font
+autoload -Uz promptinit
+promptinit
+prompt off
+
+#PS1="> "
+
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
@@ -27,6 +34,8 @@ zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
+# Completion for kitty
+##kitty + complete setup zsh | source /dev/stdin
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then

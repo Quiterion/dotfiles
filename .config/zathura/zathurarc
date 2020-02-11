@@ -1,6 +1,8 @@
 set default-bg "#000000"
 set statusbar-bg "#000000"
 set inputbar-bg "#000000"
+
 set recolor-lightcolor "#000000"
 map i recolor
 set selection-clipboard clipboard
+set font "monospace bold 12"

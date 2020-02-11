@@ -54,7 +54,7 @@ set noshowcmd noruler " Reportedly makes neovim faster
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Goyo plugin makes text more readable when writing prose:
-	map <leader>f :Goyo \| set bg=dark \| set linebreak<CR>
+	map <leader>f :Goyo \| set bg=dark \| set linebreak \| highlight VertSplit ctermfg=1 cterm=NONE<CR>
 
 " Spell-check set to <leader>o, 'o' for 'orthography':
 	map <leader>o :setlocal spell! spelllang=en_us<CR>
@@ -66,6 +66,7 @@ set noshowcmd noruler " Reportedly makes neovim faster
 	map <leader>n :NERDTreeToggle<CR>
 	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 	let NERDTreeShowHidden=1
+	highlight VertSplit ctermfg=1 cterm=NONE
 
 " Shortcutting split navigation, saving a keypress:
 	map <C-h> <C-w>h

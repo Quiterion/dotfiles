@@ -28,7 +28,7 @@
 image/x-imgur-album; feh -g 640x480 %s; test=test -n "$DISPLAY"
 image/gif; mpv '%s' --autofit 640x480 --loop=inf; test=test -n "$DISPLAY"
 ##image/*; feh -B black -g 640x480 '%s'; test=test -n "$DISPLAY"
-image/*; feh -B black --scale-down '%s'; test=test -n "$DISPLAY"
+image/*; feh -Z '%s'; test=test -n "$DISPLAY"
 
 # Youtube videos are assigned a custom mime-type, which can be streamed with
 # vlc or youtube-dl.
