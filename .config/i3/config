@@ -32,7 +32,8 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+##bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec st
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -83,7 +84,7 @@ bindsym $mod+t layout toggle split
 bindsym $mod+e split toggle
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+space floating toggle; border pixel 0
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -103,17 +104,32 @@ bindsym $mod+minus scratchpad show
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+set $ws1 "0"
+set $ws2 "1"
+set $ws3 "2"
+set $ws4 "3"
+set $ws5 "4"
+set $ws6 "5"
+set $ws7 "6"
+set $ws8 "7"
+set $ws9 "8"
+set $ws10 "9"
 
+##set $ws1 "1: 爵"
+##set $ws2 "2: ﭮ"
+##set $ws3 "3: "
+##set $ws4 "4: "
+##set $ws5 "5: "
+##set $ws6 "6: "
+##set $ws7 "7: "
+##set $ws8 "8: "
+##set $ws9 "9: "
+##set $ws10 "10: "
+
+# Assign applications to workspaces
+assign [class="^qutebrowser$"] 0
+assign [class="^discord$"] 1
+assign [class="^KeePassXC$"] 8
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -206,33 +222,35 @@ bindsym $mod+r mode "resize"
 # NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
 # it fails to get colors from Xresources.
 set_from_resource $fg i3wm.color7 #f0f0f0
-set_from_resource $bg i3wm.color2 #f0f0f0
-set_from_resource $bg2 i3wm.color4 #f0f0f0
-set_from_resource $bg3 i3wm.color3 #f0f0f0
-set_from_resource $bg4 i3wm.color5 #f0f0f0
+set_from_resource $bg i3wm.color7 #f0f0f0
+set_from_resource $fc i3wm.color4 #f0f0f0
+set_from_resource $in i3wm.color3 #f0f0f0
+set_from_resource $un i3wm.color0 #f0f0f0
+set_from_resource $ur i3wm.color5 #f0f0f0
 
 # class                 border  backgr. text indicator child_border
-client.focused          $bg     $bg     $fg  $bg       $bg
-client.focused_inactive $bg     $bg2    $fg  $bg       $bg
-client.unfocused        $bg     $bg3    $fg  $bg       $bg
-client.urgent           $bg     $bg4    $fg  $bg       $bg
-client.placeholder      $bg     $bg     $fg  $bg       $bg
+client.focused          $fc     $fc     $fg  $bg       $bg
+client.focused_inactive $in     $in     $fg  $bg       $bg
+client.unfocused        $un     $un     $fg  $bg       $bg
+client.urgent           $un     $ur     $fg  $bg       $bg
+client.placeholder      $un     $bg     $fg  $bg       $bg
 
-client.background       $bg
+client.background       $fc
 
 # It is called i3-gaps after all
-gaps inner 15
-gaps horizontal 55
+gaps inner 5
+gaps horizontal 25
 # For overridden polybar
-gaps bottom 55
-gaps top 45
+gaps bottom 15
+#gaps top 45
+gaps top 35
 
 # It's rounded too lol
 ##border_radius 10
 
 # Border Settings
 default_border pixel 0
-default_floating_border pixel 0
+default_floating_border pixel 1
 #hide_edge_borders vertical
 
 
@@ -263,7 +281,7 @@ bindsym $mod+F6 exec xbacklight -inc 10
 bindsym $mod+x exec /home/quiterion/.local/bin/i3locker.sh
 
 # Zen-ify windows by floating and resizing them
-bindsym $mod+Shift+z floating enable; resize set 1280 720; move position center
+bindsym $mod+Shift+z floating enable; border pixel 1; resize set 1280 720; move position center
 
 # Center floating windows
 bindsym $mod+z move position center
@@ -298,6 +316,9 @@ bindsym $mod+v exec /home/quiterion/.screenlayout/dual.sh
 # Disable second monitor
 bindsym $mod+Shift+v exec /home/quiterion/.screenlayout/single.sh
 
+# Fuel Rats Dispatch helper
+bindsym $mod+Shift+f exec /home/quiterion/.local/bin/dispatch.sh
+
 ## Start other applications
 
 # Wallpaper
@@ -311,7 +332,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id $HOME/.config/compton/launch.sh
 
 # Hide mouse cursor
-exec_always --no-startup-id /usr/bin/unclutter
+exec --no-startup-id /usr/bin/unclutter
 
 # Launch dunst (notification daemon)
 exec --no-startup-id /usr/bin/dunst

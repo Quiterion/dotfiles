@@ -18,6 +18,14 @@
 ;
 ;==========================================================
 
+[colors]
+background = ${xrdb:background:#aa}
+foreground = ${xrdb:foreground:#FFFFFF}
+foreground-alt = ${xrdb:color6:#666}
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+
 [bar/bottom]
 ; Use either of the following command to list available outputs:
 ; If unspecified, the application will pick the first one it finds.
@@ -51,7 +59,7 @@ override-redirect = true
 wm-restack = i3
 
 ; Put the bar at the bottom of the screen
-bottom = true
+bottom = false
 
 ; Prefer fixed center position for the `modules-center` block
 ; When false, the center position will be based on the size of the other blocks.
@@ -60,22 +68,29 @@ fixed-center = true
 ; Dimension defined as pixel value (e.g. 35) or percentage (e.g. 50%),
 ; the percentage can optionally be extended with a pixel offset like so:
 ; 50%:-10, this will result in a width or height of 50% minus 10 pixels
-width = 93.25%
-height = 37
+#width = 93.25%
+##width = 97.25%
+width = 100%
+##height = 37
+height = 30
 
 ; Offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
 ; the percentage can optionally be extended with a pixel offset like so:
 ; 50%:-10, this will result in an offset in the x or y direction
 ; of 50% minus 10 pixels
-offset-x = 3.4%
-offset-y = 12
+#offset-x = 3.4%
+##offset-x = 26
+offset-x = 0
+#offset-y = 12
+offset-y = 0
 
 ; Background ARGB color (e.g. #f00, #ff992a, #ddff1023)
 #background = #66010101
-background = #FF000000
+#background = #FF000000
+background = ${colors.background}
 
 ; Foreground ARGB color (e.g. #f00, #ff992a, #ddff1023)
-foreground = #ffffff
+foreground = ${colors.foreground}
 
 ; Background gradient (vertical steps)
 ;   background-[0-9]+ = #aarrggbb
@@ -93,7 +108,7 @@ radius = 0
 ; Individual values can be defined using:
 ;   {overline,underline}-size
 ;   {overline,underline}-color
-line-size = 0
+line-size = 1
 line-color = #f00
 
 ; Values applied to all borders
@@ -112,7 +127,8 @@ line-color = #f00
 ; Number of spaces to add at the beginning/end of the bar
 ; Individual side values can be defined using:
 ;   padding-{left,right}
-padding-right = 4
+##padding-right = 4
+padding-right = 2
 
 ; Number of spaces to add before/after each module
 ; Individual side values can be defined using:
@@ -133,9 +149,12 @@ font-0 = TerminessTTF Nerd Font:style=bold:size=12;1
 ;   modules-left = cpu ram
 ;   modules-center = xwindow xbacklight
 ;   modules-right = ipc clock
-modules-left = i3
-modules-center =
-modules-right = mpd sep wireless-network sep temperature sep pulseaudio sep backlight-acpi sep battery0 sep battery1 sep memory sep cpu sep ext-ipv4 sep date
+##modules-left = i3
+##modules-center =
+##modules-right = mpd sep wireless-network sep temperature sep pulseaudio sep backlight-acpi sep battery0 sep battery1 sep memory sep cpu sep ext-ipv4 sep date
+modules-left = i3 sep layout sep ext-ipv4 sep mpd
+modules-center = sep date sep
+modules-right = wireless-network sep temperature sep pulseaudio sep backlight-acpi sep battery0 sep battery1 sep memory sep cpu
 
 ; The separator will be inserted between the output of each module
 separator =
@@ -182,14 +201,14 @@ tray-maxsize = 16
 ; ARGB color (e.g. #f00, #ff992a, #ddff1023)
 ; By default the tray container will use the bar
 ; background color.
-tray-background = #010101
+tray-background = ${colors.background}
 
 ; Tray offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
 tray-offset-x = 0
 tray-offset-y = 0
 
 ; Pad the sides of each tray icon
-tray-padding =
+tray-padding = 0
 
 ; Scale factor for tray clients
 tray-scale = 1.0
@@ -220,7 +239,7 @@ pin-workspaces = true
 
 ; This will split the workspace name on ':'
 ; Default: false
-strip-wsnumbers = true
+strip-wsnumbers = false
 
 ; Sort the workspaces by index instead of the default
 ; sorting that groups the workspaces by output
@@ -248,17 +267,45 @@ reverse-scroll = false
 ; Example: code;♚ will apply the icon to all workspaces
 ; containing 'code' in the label
 ; Default: false
-fuzzy-match = true
+fuzzy-match = false
 
-label-unfocused = %index%
+ws-icon-0 = 0;爵
+ws-icon-1 = 1;ﭮ
+ws-icon-2 = 2;
+ws-icon-3 = 3;
+ws-icon-4 = 4;
+ws-icon-5 = 5;
+ws-icon-6 = 6;
+ws-icon-7 = 7;
+ws-icon-8 = 8;
+ws-icon-9 = 9;
+
+format = <label-state> <label-mode>
+
+label-mode-foreground = ${colors.alert}
+
+label-unfocused = %icon%
 label-unfocused-padding = 2
-label-unfocused-foreground = #ffffff
+label-unfocused-foreground = ${colors.foreground}
 
-label-focused = %index%
-label-focused-foreground = #ffffff
-label-focused-background = #465457
-label-focused-underline = #fba922
+label-visible = %icon%
+label-visible-padding = 2
+label-visible-foreground = ${colors.foreground}
+
+label-focused = %icon%
+label-focused-foreground = ${colors.foreground-alt}
+label-focused-background = ${colors.background}
 label-focused-padding = 2
+
+; urgent = Workspace with urgency hint set
+label-urgent = %icon%
+label-urgent-foreground = ${colors.alert}
+label-urgent-padding = 2
+
+; Separator in between workspaces
+; label-separator =
+; label-separator-padding = 0.5
+; label-separator-foreground = ${colors.foreground}
 
 [module/battery]
 type = internal/battery
@@ -271,29 +318,29 @@ label-charging-foreground = #add8e6
 format-discharging = <ramp-capacity> <label-discharging>
 label-discharging-foreground = #FF9999
 
-format-full =  100%
+format-full =  100%
 format-full-foreground = ${self.label-charging-foreground}
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
 ramp-capacity-foreground = ${self.label-discharging-foreground}
 
-;animation-charging-0 = 
-;animation-charging-1 = 
-;animation-charging-2 = 
-;animation-charging-3 = 
-;animation-charging-4 = 
+;animation-charging-0 =
+;animation-charging-1 =
+;animation-charging-2 =
+;animation-charging-3 =
+;animation-charging-4 =
 ;animation-charging-foreground = ${colors.foreground-alt}
 ;animation-charging-framerate = 750
 ;
-;animation-discharging-0 = 
-;animation-discharging-1 = 
-;animation-discharging-2 = 
-;animation-discharging-3 = 
-;animation-discharging-4 = 
+;animation-discharging-0 =
+;animation-discharging-1 =
+;animation-discharging-2 =
+;animation-discharging-3 =
+;animation-discharging-4 =
 ;animation-discharging-foreground = ${colors.foreground-alt}
 ;animation-discharging-framerate = 750
 
@@ -325,7 +372,7 @@ time-alt = %H:%M:%S
 
 label = %date% %time%
 label-font = 0
-label-foreground = #ffffff
+label-foreground = ${colors.foreground}
 
 [module/wireless-network]
 type = internal/network
@@ -350,7 +397,7 @@ ramp-signal-5 = 
 [module/mpd]
 type = internal/mpd
 ;format-online =  <label-song> <icon-prev> <icon-stop> <toggle> <icon-next>
-format-online = <icon-prev> <toggle> <icon-next> <label-song>
+format-online = <icon-prev>  <toggle>  <icon-next>  <label-song>
 label-foreground = #5ab414
 format-prefix-foreground = #5ab414
 
@@ -370,7 +417,7 @@ type = internal/cpu
 ; Default: 1
 interval = 0.5
 
-label =  %percentage%%
+label =   %percentage%%
 
 label-foreground = #0066cc
 label-padding-right = 1
@@ -401,7 +448,7 @@ format = <label>
 ;   %gb_swap_free%
 ;   %gb_swap_used%
 
-label =  %percentage_used%%
+label =   %percentage_used%%
 label-foreground = #f92672
 
 [module/temperature]
@@ -446,17 +493,25 @@ label-foreground = #fdc21f
 type = custom/script
 exec = $HOME/.config/polybar/pub-ipv4.sh
 label = %output%
+label-foreground = ${colors.foreground}
 interval=5
+
+[module/layout]
+type = custom/script
+exec = $HOME/.config/polybar/layout.sh
+label = %output%
+label-foreground = ${colors.foreground}
+interval=0.5
 
 [module/pulseaudio]
 type = internal/pulseaudio
 
 format-volume = <label-volume>
 label-volume = 墳 %percentage%%
-label-volume-foreground = #add8e6
+label-volume-foreground = #388E8E
 
 label-muted = ﱝ
-label-muted-foreground = #fffff0
+label-muted-foreground = ${colors.foreground}
 
 ;bar-volume-width = 5
 ;;bar-volume-foreground-0 = #55aa55
@@ -481,8 +536,8 @@ label-muted-foreground = #fffff0
 type = internal/xbacklight
 
 format = <label>
-label =  %percentage%%
-label-foreground = #ffffc0
+label =   %percentage%%
+label-foreground = #cccc00
 
 ;bar-width = 5
 ;bar-indicator = |

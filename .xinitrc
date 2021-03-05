@@ -37,7 +37,7 @@ fi
 # Insert dumb settings that shouldn't really go here
 # Does anyone /really/ know what the proper X dotfiles are?
 
-xinput --set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 1  # Set trackpoint acceleration to warp speed
+##xinput --set-prop "TPPS/2 IBM TrackPoint" "libinput Accel Speed" 1  # Set trackpoint acceleration to warp speed
 #setxkbmap -option caps:swapescape  # Swap capslock and escape keys because I'm a vim-using sadist
 
 exec i3

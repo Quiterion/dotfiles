@@ -17,7 +17,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 call plug#end()
 
-set bg=dark
+set bg=light
 set go=a
 set mouse=a
 set nohlsearch
@@ -54,10 +54,10 @@ set noshowcmd noruler " Reportedly makes neovim faster
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Goyo plugin makes text more readable when writing prose:
-	map <leader>f :Goyo \| set bg=dark \| set linebreak \| highlight VertSplit ctermfg=1 cterm=NONE<CR>
+	map <leader>f :Goyo \| set bg=light \| set linebreak \| highlight VertSplit ctermfg=1 cterm=NONE<CR>
 
 " Spell-check set to <leader>o, 'o' for 'orthography':
-	map <leader>o :setlocal spell! spelllang=en_us<CR>
+	map <leader>o :setlocal spell! spelllang=en_au<CR>
 
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 	set splitbelow splitright
@@ -86,6 +86,7 @@ set noshowcmd noruler " Reportedly makes neovim faster
 
 " Runs a script that cleans out tex build files whenever I close out of a .tex file.
 	autocmd VimLeave *.tex !texclear %
+	autocmd VimLeave *.tex !texclear-nuke.sh
 
 " Ensure files are read as what I want:
 	autocmd BufRead,BufNewFile *.tex set filetype=tex

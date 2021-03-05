@@ -1,6 +1,7 @@
 #!/bin/bash
 
 while true; do
-	fortune | cowsay -f $(find /usr/share/cows/ -type f -iname '*.cow' | shuf | head -1) | lolcat
-	sleep 6
+#	fortune | cowsay f $(find /usr/share/cows/ -type f -iname '*.cow' | shuf | head -1) | lolcat
+	fortune -s | cowsay -f $(find /usr/share/cows/ -type f -iname '*.cow' | shuf | head -1)
+	sleep 4
 done

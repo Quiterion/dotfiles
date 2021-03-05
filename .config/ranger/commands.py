@@ -99,3 +99,37 @@ class bg(Command):
         subprocess.call(f"i3-msg restart", shell=True)
 
 
+class bgl(Command):
+    """:bg <filename>
+
+    Takes an image and sets it as your wallpaper by running pywal with a light theme flag, making a symlink and reloading i3.
+    """
+
+    def execute(self):
+        # self.arg(1) is the first (space-separated) argument to the function.
+        if self.arg(1):
+            # self.rest(1) contains self.arg(1) and everything that follows
+            target_filename = self.rest(1)
+        else:
+            # self.fm is a ranger.core.filemanager.FileManager object and gives
+            # you access to internals of ranger.
+            # self.fm.thisfile is a ranger.container.file.File object and is a
+            # reference to the currently selected file.
+            target_filename = self.fm.thisfile.path
+
+        # Using bad=True in fm.notify allows you to print error messages:
+        if not os.path.exists(target_filename):
+            self.fm.notify("The given file does not exist!", bad=True)
+            return
+
+        # Check selected file is a valid image
+        file_type = imghdr.what(target_filename)
+        if file_type not in ['png', 'jpg', 'jpeg']:
+            self.fm.notify(f"The given file is not a valid image! Uses type '{file_type}' instead.", bad=True)
+            return
+
+        # Actually set the image as the default background
+        subprocess.call(f"wal -lenqi {target_filename}", shell=True)
+        subprocess.call(f"ln -sf {target_filename} ~/Pictures/Wallpapers/wallpaper", shell=True)
+        subprocess.call(f"xrdb -merge ~/.Xresources", shell=True)
+        subprocess.call(f"i3-msg restart", shell=True)

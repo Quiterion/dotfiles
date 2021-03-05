@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -I Assessments /home/quiterion/Skool/ | rofi -dmenu | xargs -I {} st -e "/home/quiterion/Skool/{}/newlec.sh"
+ls -I Assessments /home/quiterion/Uni/ | rofi -dmenu | xargs -I {} st -e "/home/quiterion/Uni/{}/newlec.sh"
