@@ -1,0 +1,27 @@
+#!/bin/bash
+
+## Takes two arguments, a filename and an album name
+## File consists of lines broken into a URL, artist,
+## title, and track number (in that order)
+
+
+plunder () {
+	artist=${2//\ /\_}
+	title=${3//\ /\_}
+	track=${4//\ /\_}
+	album=${5//\ /\_}
+	youtube-dl -x --audio-format mp3 -o "$HOME/Music/$artist/$album/$artist-$title-$track.%(ext)s" "$1"
+}
+
+if [ "$#" -eq 2 ]; then
+	filename="$1"
+	while read -r line; do
+		url=$(echo "$line" | awk -F , '{print $1}')
+		artist_inp=$(echo "$line" | awk -F , '{print $2}')
+		title_inp=$(echo "$line" | awk -F , '{print $3}')
+		track_inp=$(echo "$line" | awk -F , '{print $4}')
+		plunder "$url" "$artist_inp" "$title_inp" "$track_inp" "$2"
+	done < "$filename"
+else
+	echo "Incorrect number of aguments!"
+fi

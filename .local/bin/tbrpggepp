@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Launching script for tbrpggepp
+/usr/bin/python3 "/home/quiterion/Projects/tbrpggepp/mainMenuForm.py"

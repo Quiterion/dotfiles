@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+import sys
+import subprocess
+
+if len(sys.argv) == 2:
+    source = sys.argv[1]
+else:
+    print("Bad arguments")
+    exit(2)
+
+words = open("/home/quiterion/Documents/words.txt", "r")
+
+for w in words:
+    w = w[:-1]
+    consumable = source.lower()
+    flag = True
+    for letter in w:
+        if letter in consumable:
+            consumable = consumable.replace(letter, '', 1)
+        else:
+            flag = False
+            break
+    if flag:
+        print(w)

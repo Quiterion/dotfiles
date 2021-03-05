@@ -1,0 +1,39 @@
+#!/bin/bash
+
+trap "walc r && killall mpv" INT HUP TERM
+
+#get random wall
+getrand(){
+    wall=$(find /home/quiterion/Pictures/Wallpapers/Animations -name "*.mp4" | sort -R | tail -1)
+    echo "$wall" > /home/quiterion/Pictures/Wallpapers/Animations/animcurrent
+}
+
+#read in last wall
+restore(){
+    read -r wall < /home/quiterion/Pictures/Wallpapers/Animations/animcurrent
+}
+
+#manually select an image
+manual(){
+    wall=$(readlink -f "$1")
+    echo "$wall" > /home/quiterion/Pictures/Wallpapers/Animations/animcurrent
+}
+
+#set wall
+setwall(){
+   pkill mpv &>/dev/null
+   sleep .1
+	xwinwrap -ov -fs -- mplayer -vo gl -wid WID -loop 0 "$wall" 1>/dev/null &>/dev/null
+}
+
+if [ "$1" = "z" ]
+then
+    getrand "$@" && setwall
+
+elif [ "$1" = "r" ]
+then
+    restore && setwall
+
+else
+    manual "$@" && setwall
+fi
