@@ -129,6 +129,7 @@ set $ws10 "9"
 # Assign applications to workspaces
 assign [class="^qutebrowser$"] 0
 assign [class="^discord$"] 1
+for_window [class="Spotify"] move container to workspace 3
 assign [class="^KeePassXC$"] 8
 
 # switch to workspace
@@ -241,12 +242,12 @@ client.background       $fc
 gaps inner 5
 gaps horizontal 25
 # For overridden polybar
-gaps bottom 15
+gaps bottom 35
 #gaps top 45
-gaps top 35
+gaps top 25
 
 # It's rounded too lol
-##border_radius 10
+border_radius 10
 
 # Border Settings
 default_border pixel 0
@@ -281,7 +282,8 @@ bindsym $mod+F6 exec xbacklight -inc 10
 bindsym $mod+x exec /home/quiterion/.local/bin/i3locker.sh
 
 # Zen-ify windows by floating and resizing them
-bindsym $mod+Shift+z floating enable; border pixel 1; resize set 1280 720; move position center
+#bindsym $mod+Shift+z floating enable; border pixel 1; resize set 1280 720; move position center
+bindsym $mod+Shift+z floating enable; resize set 1280 720; move position center
 
 # Center floating windows
 bindsym $mod+z move position center

@@ -26,6 +26,40 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
+[bar/top]
+monitor = ${env:MONITOR:eDP-1}
+override-redirect = true
+wm-restack = i3
+bottom = false
+fixed-center = true
+width = 18%
+offset-x = 42%
+offset-y = 2
+background = ${colors.background}
+foreground = ${colors.foreground}
+radius = 10
+line-size = 1
+line-color = #f00
+padding-right = 2
+module-margin = 1
+font-0 = TerminessTTF Nerd Font:style=bold:size=12;1
+modules-center = sep date sep
+separator =
+dim-value = 1.0
+wm-name = i3
+tray-position = none
+tray-detached = false
+tray-maxsize = 16
+tray-background = ${colors.background}
+tray-offset-x = 0
+tray-offset-y = 0
+tray-padding = 0
+tray-scale = 1.0
+dpi-x = 96
+dpi-y = 96
+enable-ipc = false
+
+
 [bar/bottom]
 ; Use either of the following command to list available outputs:
 ; If unspecified, the application will pick the first one it finds.
@@ -59,7 +93,7 @@ override-redirect = true
 wm-restack = i3
 
 ; Put the bar at the bottom of the screen
-bottom = false
+bottom = True
 
 ; Prefer fixed center position for the `modules-center` block
 ; When false, the center position will be based on the size of the other blocks.
@@ -70,7 +104,7 @@ fixed-center = true
 ; 50%:-10, this will result in a width or height of 50% minus 10 pixels
 #width = 93.25%
 ##width = 97.25%
-width = 100%
+width = 92%
 ##height = 37
 height = 30
 
@@ -80,9 +114,9 @@ height = 30
 ; of 50% minus 10 pixels
 #offset-x = 3.4%
 ##offset-x = 26
-offset-x = 0
+offset-x = 4%
 #offset-y = 12
-offset-y = 0
+offset-y = 2
 
 ; Background ARGB color (e.g. #f00, #ff992a, #ddff1023)
 #background = #66010101
@@ -102,7 +136,7 @@ foreground = ${colors.foreground}
 ; pseudo-transparency or use a compositor like compton.
 ; Individual top/bottom values can be defined using:
 ;   radius-{top,bottom}
-radius = 0
+radius = 10
 
 ; Under-/overline pixel size and argb color
 ; Individual values can be defined using:
@@ -153,7 +187,7 @@ font-0 = TerminessTTF Nerd Font:style=bold:size=12;1
 ##modules-center =
 ##modules-right = mpd sep wireless-network sep temperature sep pulseaudio sep backlight-acpi sep battery0 sep battery1 sep memory sep cpu sep ext-ipv4 sep date
 modules-left = i3 sep layout sep ext-ipv4 sep mpd
-modules-center = sep date sep
+##modules-center = sep date sep
 modules-right = wireless-network sep temperature sep pulseaudio sep backlight-acpi sep battery0 sep battery1 sep memory sep cpu
 
 ; The separator will be inserted between the output of each module
@@ -182,7 +216,7 @@ wm-name = i3
 ;   center
 ;   right
 ;   none
-tray-position = right
+tray-position = center
 
 ; If true, the bar will not shift its
 ; contents when the tray changes
@@ -205,13 +239,13 @@ tray-background = ${colors.background}
 
 ; Tray offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
 tray-offset-x = 0
-tray-offset-y = 0
+tray-offset-y = 5%
 
 ; Pad the sides of each tray icon
 tray-padding = 0
 
 ; Scale factor for tray clients
-tray-scale = 1.0
+tray-scale = 0.8
 
 ; Set a DPI values used when rendering text
 ; This only affects scalable fonts
@@ -367,10 +401,10 @@ time = %H:%M
 
 ; if `date-alt` or `time-alt` is defined, clicking
 ; the module will toggle between formats
-date-alt = %A, %d %B %Y
+date-alt = %A %d %B %Y
 time-alt = %H:%M:%S
 
-label = %date% %time%
+label = %time%, %date%
 label-font = 0
 label-foreground = ${colors.foreground}
 

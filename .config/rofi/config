@@ -4,4 +4,4 @@ rofi.display-ssh:		"ssh";
 rofi.show-icons:		true;
 rofi.icon-theme:		"Adwaita";
 rofi.combi-hide-mode-prefix:    True
-rofi.theme:                     /home/quiterion/.cache/wal/wal-colors-rofi.rasi
+rofi.theme:                     /home/quiterion/.cache/wal/colors-rofi-dark.rasi

@@ -10,12 +10,24 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'lervag/vimtex'
-Plug 'sirver/ultisnips'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'sirver/ultisnips'
 Plug 'junegunn/goyo.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 call plug#end()
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
 
 set bg=light
 set go=a
@@ -99,3 +111,33 @@ set noshowcmd noruler " Reportedly makes neovim faster
 
 " Word count:
 	autocmd FileType tex map <leader>w :w !detex \| wc -w<CR>
+
+" length of an actual \t character:
+set tabstop=4
+" length to use when editing text (eg. TAB and BS keys)
+" (0 for ‘tabstop’, -1 for ‘shiftwidth’):
+set softtabstop=-1
+" length to use when shifting text (eg. <<, >> and == commands)
+" (0 for ‘tabstop’):
+set shiftwidth=0
+" round indentation to multiples of 'shiftwidth' when shifting text
+" (so that it behaves like Ctrl-D / Ctrl-T):
+set shiftround
+
+" if set, only insert spaces; otherwise insert \t and complete with spaces:
+set expandtab
+
+" reproduce the indentation of the previous line:
+"set autoindent
+" keep indentation produced by 'autoindent' if leaving the line blank:
+set cpoptions+=I
+" try to be smart (increase the indenting level after ‘{’,
+" decrease it after ‘}’, and so on):
+set smartindent
+" a stricter alternative which works better for the C language:
+"set cindent
+" use language‐specific plugins for indenting (better):
+filetype plugin indent on
+
+" use shorter indentation for java scripts:
+autocmd FileType java setlocal tabstop=2

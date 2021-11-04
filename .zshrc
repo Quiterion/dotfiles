@@ -76,6 +76,7 @@ if [ -f ~/.aliases ]; then
 fi
 
 # Set colors for less
+export LESS='-R --use-color -Dd+r$Du+b'
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'
 export LESS_TERMCAP_me=$'\e[0m'

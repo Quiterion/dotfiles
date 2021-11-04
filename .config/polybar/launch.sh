@@ -10,10 +10,12 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 if type "xrandr"; then
   for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
 
-    MONITOR=$m polybar bottom  -r &
+    MONITOR=$m polybar top -r &
+    MONITOR=$m polybar bottom -r &
   done
 else
-  polybar bottom  -r &
+  polybar top -r &
+  polybar bottom -r &
 fi
 
 echo "Bars launched..."
