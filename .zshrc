@@ -84,8 +84,15 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
+export TERMINAL='st'
+alias sd="/home/quiterion/.local/bin/samedir.sh"
 
 
 # Load zsh plugins
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+
+# calculator helper function
+export calc () {
+    echo "$(( $@ ))"
+}

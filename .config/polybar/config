@@ -19,7 +19,9 @@
 ;==========================================================
 
 [colors]
+; background = #000000
 background = ${xrdb:background:#aa}
+; transparency
 foreground = ${xrdb:foreground:#FFFFFF}
 foreground-alt = ${xrdb:color6:#666}
 primary = #ffb52a
@@ -27,6 +29,7 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/top]
+#monitor = ${env:MONITOR:eDP-1}
 monitor = ${env:MONITOR:eDP-1}
 override-redirect = true
 wm-restack = i3
@@ -35,6 +38,7 @@ fixed-center = true
 width = 18%
 offset-x = 42%
 offset-y = 2
+; background = ${xrdb:background:#aa}
 background = ${colors.background}
 foreground = ${colors.foreground}
 radius = 10
@@ -235,7 +239,7 @@ tray-maxsize = 16
 ; ARGB color (e.g. #f00, #ff992a, #ddff1023)
 ; By default the tray container will use the bar
 ; background color.
-tray-background = ${colors.background}
+tray-background = #000000FF
 
 ; Tray offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
 tray-offset-x = 0
@@ -245,7 +249,7 @@ tray-offset-y = 5%
 tray-padding = 0
 
 ; Scale factor for tray clients
-tray-scale = 0.8
+tray-scale = 1.0
 
 ; Set a DPI values used when rendering text
 ; This only affects scalable fonts
@@ -269,7 +273,7 @@ type = internal/i3
 ; on different bars
 ;
 ; Default: false
-pin-workspaces = true
+pin-workspaces =
 
 ; This will split the workspace name on ':'
 ; Default: false
@@ -327,7 +331,7 @@ label-visible-padding = 2
 label-visible-foreground = ${colors.foreground}
 
 label-focused = %icon%
-label-focused-foreground = ${colors.foreground-alt}
+label-focused-foreground = ${colors.foreground-alt:#aa}
 label-focused-background = ${colors.background}
 label-focused-padding = 2
 

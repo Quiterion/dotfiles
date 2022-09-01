@@ -32,7 +32,6 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-##bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec st
 
 # kill focused window
@@ -130,6 +129,8 @@ set $ws10 "9"
 assign [class="^qutebrowser$"] 0
 assign [class="^discord$"] 1
 for_window [class="Spotify"] move container to workspace 3
+for_window [title="work-ubuntu20\.04 \(1\)"] move container to workspace 4
+for_window [title="work-ubuntu20\.04 \(2\)"] move container to workspace 2
 assign [class="^KeePassXC$"] 8
 
 # switch to workspace
@@ -240,7 +241,7 @@ client.background       $fc
 
 # It is called i3-gaps after all
 gaps inner 5
-gaps horizontal 25
+gaps horizontal 10
 # For overridden polybar
 gaps bottom 35
 #gaps top 45
@@ -251,7 +252,7 @@ border_radius 10
 
 # Border Settings
 default_border pixel 0
-default_floating_border pixel 1
+default_floating_border pixel 0
 #hide_edge_borders vertical
 
 
@@ -282,8 +283,7 @@ bindsym $mod+F6 exec xbacklight -inc 10
 bindsym $mod+x exec /home/quiterion/.local/bin/i3locker.sh
 
 # Zen-ify windows by floating and resizing them
-#bindsym $mod+Shift+z floating enable; border pixel 1; resize set 1280 720; move position center
-bindsym $mod+Shift+z floating enable; resize set 1280 720; move position center
+bindsym $mod+Shift+z floating enable; border pixel 0; resize set 1280 720; move position center
 
 # Center floating windows
 bindsym $mod+z move position center
@@ -310,7 +310,7 @@ bindsym $mod+Shift+n exec st -e "/usr/bin/ncmpcpp"
 bindsym $mod+u exec wala z
 
 # Kill random background animation
-bindsym $mod+Shift+u exec pkill mplayer
+bindsym $mod+Shift+u exec pkill xwinwrap
 
 # Enable second monitor
 bindsym $mod+v exec /home/quiterion/.screenlayout/dual.sh
@@ -324,14 +324,15 @@ bindsym $mod+Shift+f exec /home/quiterion/.local/bin/dispatch.sh
 ## Start other applications
 
 # Wallpaper
-exec_always --no-startup-id feh --no-fehbg --bg-fill $HOME/Pictures/Wallpapers/wallpaper
+#exec_always --no-startup-id feh --no-fehbg --bg-center --bg-max $HOME/Pictures/Wallpapers/wallpaper
+exec_always --no-startup-id feh --no-fehbg --bg-center --bg-scale $HOME/Pictures/Wallpapers/wallpaper
 
 # Launch polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #exec --no-startup-id $HOME/.config/polybar/launch.sh
 
-# Launch compton
-exec_always --no-startup-id $HOME/.config/compton/launch.sh
+# Launch picom
+exec_always --no-startup-id $HOME/.config/picom/launch.sh
 
 # Hide mouse cursor
 exec --no-startup-id /usr/bin/unclutter

@@ -1,8 +1,15 @@
-set default-bg "#000000"
-set statusbar-bg "#000000"
-set inputbar-bg "#000000"
+set default-bg \#000000
+set statusbar-bg \#000000
+set inputbar-bg \#000000
 
-set recolor-lightcolor "#000000"
+set index-fg \#FFFFFF
+set index-bg \#000000
+set index-active-fg \#000000
+set index-active-bg \#FFFFFF
+
+set scroll-step 20
 map i recolor
 set selection-clipboard clipboard
+set dbus-service true
+set synctex true
 set font "monospace bold 12"
