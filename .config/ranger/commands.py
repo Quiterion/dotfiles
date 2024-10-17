@@ -7,7 +7,7 @@
 # A simple command for demonstration purposes follows.
 # -----------------------------------------------------------------------------
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
 # You can import any python module as needed.
 import os
@@ -63,6 +63,7 @@ class my_edit(Command):
         # content of the current directory.
         return self._tab_directory_content()
 
+
 class bg(Command):
     """:bg <filename>
 
@@ -88,15 +89,18 @@ class bg(Command):
 
         # Check selected file is a valid image
         file_type = imghdr.what(target_filename)
-        if file_type not in ['png', 'jpg', 'jpeg']:
-            self.fm.notify(f"The given file is not a valid image! Uses type '{file_type}' instead.", bad=True)
+        if file_type not in ["png", "jpg", "jpeg"]:
+            self.fm.notify(
+                f"The given file is not a valid image! Uses type '{file_type}' instead.",
+                bad=True,
+            )
             return
 
         # Actually set the image as the default background
-        subprocess.call(f"wal -enqi {target_filename}", shell=True)
-        subprocess.call(f"ln -sf {target_filename} ~/Pictures/Wallpapers/wallpaper", shell=True)
-        subprocess.call(f"xrdb -merge ~/.Xresources", shell=True)
-        subprocess.call(f"i3-msg restart", shell=True)
+        subprocess.call(f"wallnew {target_filename}", shell=True)
+        # subprocess.call(f"ln -sf {target_filename} ~/Pictures/Wallpapers/wallpaper", shell=True)
+        # subprocess.call(f"xrdb -merge ~/.Xresources", shell=True)
+        # subprocess.call(f"i3-msg restart", shell=True)
 
 
 class bgl(Command):
@@ -124,12 +128,18 @@ class bgl(Command):
 
         # Check selected file is a valid image
         file_type = imghdr.what(target_filename)
-        if file_type not in ['png', 'jpg', 'jpeg']:
-            self.fm.notify(f"The given file is not a valid image! Uses type '{file_type}' instead.", bad=True)
+        if file_type not in ["png", "jpg", "jpeg"]:
+            self.fm.notify(
+                f"The given file is not a valid image! Uses type '{file_type}' instead.",
+                bad=True,
+            )
             return
 
         # Actually set the image as the default background
         subprocess.call(f"wal -lenqi {target_filename}", shell=True)
-        subprocess.call(f"ln -sf {target_filename} ~/Pictures/Wallpapers/wallpaper", shell=True)
+        subprocess.call(
+            f"ln -sf {target_filename} ~/Pictures/Wallpapers/wallpaper",
+            shell=True,
+        )
         subprocess.call(f"xrdb -merge ~/.Xresources", shell=True)
         subprocess.call(f"i3-msg restart", shell=True)

@@ -25,10 +25,10 @@ setwall(){
    sleep .1
 
    if [ $(xrandr --query | grep " connected" | cut -d" " -f1 | wc -l) == "2" ]; then
-     xwinwrap -g 1920x1080 -ov -- mpv -wid WID -loop --no-audio "$wall" 1>/dev/null &>/dev/null &
-     xwinwrap -g 1920x1080+1920+0 -ov -- mpv -wid WID -loop --no-audio "$wall" 1>/dev/null &>/dev/null &
+     xwinwrap -g 1920x1080 -ov -- mpv -wid WID -loop --no-osc --no-audio "$wall" 1>/dev/null &>/dev/null &
+     xwinwrap -g 1920x1080+1920+0 -ov -- mpv -wid WID -loop --no-osc --no-audio "$wall" 1>/dev/null &>/dev/null &
   else
-     xwinwrap -ov -fs -- mpv -wid WID -loop --no-audio "$wall" 1>/dev/null &>/dev/null &
+     xwinwrap -ov -fs -- mpv -wid WID -loop --no-osc --no-audio "$wall" 1>/dev/null &>/dev/null &
   fi
 }
 

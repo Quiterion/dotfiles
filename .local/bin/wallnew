@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+
+if [ -z "$1" ]; then
+    img="$(find $WALLPAPER_DIR -type f \( -name '*.jpg' -o -name '*.png' \) | shuf -n 1)"
+else
+    img="$1"
+fi
+wal -nqi "$img"
+pidof st | xargs kill -s USR1
+ln -sf "$img" $WALLPAPER_DIR/wallpaper
+feh --no-fehbg --bg-center --bg-scale $WALLPAPER_DIR/wallpaper

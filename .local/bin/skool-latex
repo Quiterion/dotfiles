@@ -1,3 +1,0 @@
-#!/bin/bash
-ls -I Sem1-21 /home/quiterion/Uni/ | rofi -dmenu | xargs -I {} st -e "/home/quiterion/Uni/{}/newlec.sh"
-

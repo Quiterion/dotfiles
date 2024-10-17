@@ -7,15 +7,23 @@ if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
 	autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin()
     Plug 'tpope/vim-surround'
     Plug 'lervag/vimtex'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'sirver/ultisnips'
+    "Plug 'sirver/ultisnips'
     Plug 'junegunn/goyo.vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'scrooloose/nerdtree'
+
+
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'hrsh7th/nvim-cmp', {'branch': 'main'} " Optional: For using slash commands and variables in the chat buffer
+    Plug 'nvim-telescope/telescope.nvim', " Optional: For using slash commands
+    Plug 'stevearc/dressing.nvim' " Optional: Improves `vim.ui.select`
+    Plug 'olimorris/codecompanion.nvim', {'branch': 'main'}
 call plug#end()
 
 " Some basics:
@@ -48,19 +56,35 @@ call plug#end()
 
 " Set color scheme
     set t_Co=256
-    let g:molokai_original=1
+    set notermguicolors
     colorscheme molokai_custom
+    let g:markdown_fenced_languages = ['html', 'python', 'lua', 'vim', 'typescript', 'javascript']
 
+"
 " Vimtex-specific config
 	set conceallevel=0
 	let g:tex_flavor='latex'
 	let g:vimtex_view_method='zathura'
 	let g:vimtex_quickfix_mode=0
+    let g:vimtex_compiler_latexmk = {
+        \ 'build_dir' : '',
+        \ 'callback' : 1,
+        \ 'continuous' : 1,
+        \ 'executable' : 'latexmk',
+        \ 'hooks' : [],
+        \ 'options' : [
+        \  '-shell-escape',
+        \  '-verbose',
+        \  '-synctex=1',
+        \  '-file-line-error',
+        \  '-interaction=nonstopmode'
+        \ ],
+        \}
 	let g:tex_conceal='abdmg'
 
 " UltiSnips-specific config
-	let g:UltiSnipsExpandTrigger = '<s-tab>'
-	let g:UltiSnipsJumpForwardTrigger = '<s-tab>'
+	let g:UltiSnipsExpandTrigger = '<M-Tab>'
+	let g:UltiSnipsJumpForwardTrigger = '<M-Tab>'
 	"let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 " Enable autocompletion:
@@ -69,8 +93,7 @@ call plug#end()
 " length of an actual \t character:
     set tabstop=4
 
-" use shorter indentation for java/json scripts:
-    autocmd FileType java setlocal tabstop=2
+" use shorter indentation for json scripts:
     autocmd FileType json setlocal tabstop=2
 
 " length to use when editing text (eg. TAB and BS keys)
@@ -173,18 +196,22 @@ augroup END
 
 " === CoC config section ===
 
-" use <tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-
-" Give more space for displaying messages.
 set cmdheight=1
 
 " delays and poor user experience.
@@ -282,8 +309,9 @@ function! s:goyo_enter()
         silent !tmux set status off
         silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
     endif
-    set bg=light
-    colorscheme default
+    set bg=dark
+    colorscheme molokai_custom
+    set fillchars=eob:\ ,vert:\ ,
     set noshowcmd
     set nocursorline
     set scrolloff=999
@@ -297,6 +325,7 @@ function! s:goyo_leave()
     endif
     set bg=dark
     colorscheme molokai_custom
+    set fillchars=
     set showcmd
     set cursorline
     set scrolloff=0
@@ -305,3 +334,27 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+nmap <leader>cc :CodeCompanionChat<cr>
+lua << EOF
+require("codecompanion").setup({
+  strategies = {
+    chat = {
+      adapter = "anthropic",
+    },
+    inline = {
+      adapter = "anthropic",
+    },
+    agent = {
+      adapter = "anthropic",
+    },
+  },
+  opts = {
+    log_level = "DEBUG", -- or "TRACE"
+  },
+})
+EOF
+
+
+autocmd! User avante.nvim echom "avante loaded"
+nmap <leader>aa :CodeCompanionChat<cr>

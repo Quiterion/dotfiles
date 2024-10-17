@@ -1,4 +1,6 @@
 #!/bin/bash
 
-cd ~/.config
-fzf -e | xargs vim
+set -oe pipefail
+
+cd $XDG_CONFIG_HOME
+fzf -e | xargs -r vim

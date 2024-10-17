@@ -12,7 +12,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:TerminessTTF Nerd Font 12
+font pango:Hack Nerd Font Mono 10
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -32,7 +32,8 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec st
+bindsym $mod+Return exec --no-startup-id st
+bindsym $mod+Shift+Return exec --no-startup-id $HOME/.local/bin/samedir
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -45,7 +46,8 @@ bindsym $mod+Shift+q kill
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi -modi "window#run#ssh" -show run
+bindsym $mod+d exec --no-startup-id rofi  -show run
+bindsym $mod+Shift+d exec --no-startup-id /usr/local/bin/st -t 'aichat-st' -e 'aichat'
 
 # change focus
 bindsym $mod+$left focus left
@@ -83,7 +85,8 @@ bindsym $mod+t layout toggle split
 bindsym $mod+e split toggle
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle; border pixel 0
+bindsym $mod+Shift+space floating toggle; resize set 960 540; move position center; border pixel 0
+
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -92,7 +95,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-bindsym $mod+Shift+d focus child
+bindsym $mod+Shift+a focus child
 
 # move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -127,11 +130,12 @@ set $ws10 "9"
 
 # Assign applications to workspaces
 assign [class="^qutebrowser$"] 0
+#assign [class="^firefox$"] 0
 assign [class="^discord$"] 1
-for_window [class="Spotify"] move container to workspace 3
-for_window [title="work-ubuntu20\.04 \(1\)"] move container to workspace 4
-for_window [title="work-ubuntu20\.04 \(2\)"] move container to workspace 2
+assign [class="^slack$"] 1
 assign [class="^KeePassXC$"] 8
+for_window [class="Spotify"] move container to workspace 3
+for_window [title="aichat-st"] floating enable, resize set 960 270, move position center, border pixel 0, move scratchpad, scratchpad show
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -240,21 +244,25 @@ client.placeholder      $un     $bg     $fg  $bg       $bg
 client.background       $fc
 
 # It is called i3-gaps after all
-gaps inner 5
-gaps horizontal 10
+gaps inner 6
+gaps horizontal 6
 # For overridden polybar
-gaps bottom 35
+gaps bottom 36
 #gaps top 45
-gaps top 25
+gaps top 6
 
-# It's rounded too lol
-border_radius 10
-
+#
 # Border Settings
 default_border pixel 0
 default_floating_border pixel 0
+
+#for_window [floating] border pixel 1
+#for_window [tiling] border pixel 0
+
 #hide_edge_borders vertical
 
+title_align left
+for_window [all] title_format " %title"
 
 ## Custom bindings
 
@@ -280,52 +288,49 @@ bindsym $mod+F5 exec xbacklight -dec 10
 bindsym $mod+F6 exec xbacklight -inc 10
 
 # Lock desktop with keybind (closing the lid suspends the system and also runs this script)
-bindsym $mod+x exec /home/quiterion/.local/bin/i3locker.sh
+bindsym $mod+x exec --no-startup-id $HOME/.local/bin/i3locker.sh
 
 # Zen-ify windows by floating and resizing them
-bindsym $mod+Shift+z floating enable; border pixel 0; resize set 1280 720; move position center
+bindsym $mod+Shift+z floating enable; resize set 1152 648; move position center; border pixel 0
 
 # Center floating windows
 bindsym $mod+z move position center
 
-# Open Arch RSS feed before -Syu'ing
-bindsym $mod+Shift+a exec st -e "/usr/bin/newsboat"
-
 # Open new LaTeX note docs for classes
-bindsym $mod+Shift+o exec /home/quiterion/.local/bin/skool-latex
+bindsym $mod+Shift+o exec --no-startup-id $HOME/.local/bin/unidir
 
 # Open a config file with fzf and vim (custom Kitty startup session)
-bindsym $mod+Shift+i exec st -e "/home/quiterion/.local/bin/config-editoring"
+bindsym $mod+Shift+i exec --no-startup-id st -e "$HOME/.local/bin/config-editoring"
 
 # Reset colourscheme for programs like WeeChat
-bindsym $mod+Shift+p exec wal -neqR
+bindsym $mod+Shift+p exec --no-startup-id $HOME/.local/bin/wallnew
 
 # Open ranger in wallpaper directory
-bindsym $mod+Shift+w exec st -e "/home/quiterion/.local/bin/ranger-wallpaper"
+#bindsym $mod+Shift+w exec --no-startup-id st -e "$HOME/.local/bin/ranger-wallpaper"
+bindsym $mod+Shift+w exec --no-startup-id st -e "ranger $HOME/Pictures/Wallpapers"
 
 # Open ncmpcpp (music player)
-bindsym $mod+Shift+n exec st -e "/usr/bin/ncmpcpp"
+bindsym $mod+Shift+n exec --no-startup-id st -e "/usr/bin/ncmpcpp"
 
 # Start random background animation
-bindsym $mod+u exec wala z
+bindsym $mod+u exec --no-startup-id wala z
 
 # Kill random background animation
-bindsym $mod+Shift+u exec pkill xwinwrap
+bindsym $mod+Shift+u exec --no-startup-id pkill xwinwrap
 
-# Enable second monitor
-bindsym $mod+v exec /home/quiterion/.screenlayout/dual.sh
-
-# Disable second monitor
-bindsym $mod+Shift+v exec /home/quiterion/.screenlayout/single.sh
-
-# Fuel Rats Dispatch helper
-bindsym $mod+Shift+f exec /home/quiterion/.local/bin/dispatch.sh
+# Take screenshot
+bindsym $mod+Shift+F12 exec --no-startup-id "$HOME/.local/bin/screenshot"
 
 ## Start other applications
 
 # Wallpaper
 #exec_always --no-startup-id feh --no-fehbg --bg-center --bg-max $HOME/Pictures/Wallpapers/wallpaper
 exec_always --no-startup-id feh --no-fehbg --bg-center --bg-scale $HOME/Pictures/Wallpapers/wallpaper
+
+exec_always --no-startup-id $HOME/.local/bin/update-template-themes.sh
+
+#exec --no-startup-id $HOME/.local/bin/wallnew
+exec --no-startup-id /usr/bin/unclutter
 
 # Launch polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
@@ -338,4 +343,7 @@ exec_always --no-startup-id $HOME/.config/picom/launch.sh
 exec --no-startup-id /usr/bin/unclutter
 
 # Launch dunst (notification daemon)
-exec --no-startup-id /usr/bin/dunst
+#exec --no-startup-id /usr/bin/dunst
+
+# exec --no-startup-id nm-applet
+

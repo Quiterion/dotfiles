@@ -75,6 +75,12 @@ if [ -f ~/.aliases ]; then
 . ~/.aliases
 fi
 
+
+# Load env vars
+if [ -f ~/.env ]; then
+. ~/.env
+fi
+
 # Set colors for less
 export LESS='-R --use-color -Dd+r$Du+b'
 export LESS_TERMCAP_mb=$'\e[1;32m'
@@ -85,7 +91,6 @@ export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 export TERMINAL='st'
-alias sd="/home/quiterion/.local/bin/samedir.sh"
 
 
 # Load zsh plugins

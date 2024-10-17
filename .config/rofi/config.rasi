@@ -1,0 +1,9 @@
+configuration {
+	show-icons: false;
+	icon-theme: ""Adwaita";";
+	combi-hide-mode-prefix: true;
+	display-window: ""windows";";
+	display-run: "programs";
+	display-ssh: ""ssh";";
+}
+@theme "/home/quiterion/.config/rofi/themes/rofi-dark.rasi"
