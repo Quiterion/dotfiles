@@ -24,6 +24,7 @@ call plug#begin()
     Plug 'nvim-telescope/telescope.nvim', " Optional: For using slash commands
     Plug 'stevearc/dressing.nvim' " Optional: Improves `vim.ui.select`
     Plug 'olimorris/codecompanion.nvim', {'branch': 'main'}
+    Plug 'github/copilot.vim', {'branch': 'release'}
 call plug#end()
 
 " Some basics:
