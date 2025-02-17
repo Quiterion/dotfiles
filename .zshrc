@@ -36,11 +36,7 @@ compinit
 _comp_options+=(globdots)
 # Completion for kitty
 ##kitty + complete setup zsh | source /dev/stdin
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-fi
+#
 
 # vi mode
 bindkey -v
@@ -90,7 +86,6 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
-export TERMINAL='st'
 
 
 # Load zsh plugins
