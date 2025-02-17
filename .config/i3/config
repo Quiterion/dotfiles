@@ -32,7 +32,7 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id st
+bindsym $mod+Return exec --no-startup-id wezterm
 bindsym $mod+Shift+Return exec --no-startup-id $HOME/.local/bin/samedir
 
 # kill focused window
@@ -46,8 +46,8 @@ bindsym $mod+Shift+q kill
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # start rofi (a program launcher)
-bindsym $mod+d exec --no-startup-id rofi  -show run
-bindsym $mod+Shift+d exec --no-startup-id /usr/local/bin/st -t 'aichat-st' -e 'aichat'
+bindsym $mod+d exec --no-startup-id rofi -show run
+bindsym $mod+Shift+d exec --no-startup-id wezterm start --class "aichat-wezterm" -e 'aichat' 
 
 # change focus
 bindsym $mod+$left focus left
@@ -85,7 +85,7 @@ bindsym $mod+t layout toggle split
 bindsym $mod+e split toggle
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle; resize set 960 540; move position center; border pixel 0
+bindsym $mod+Shift+space floating toggle; resize set 960 540; move position center; reload
 
 
 # change focus between tiling / floating windows
@@ -117,17 +117,6 @@ set $ws8 "7"
 set $ws9 "8"
 set $ws10 "9"
 
-##set $ws1 "1: 爵"
-##set $ws2 "2: ﭮ"
-##set $ws3 "3: "
-##set $ws4 "4: "
-##set $ws5 "5: "
-##set $ws6 "6: "
-##set $ws7 "7: "
-##set $ws8 "8: "
-##set $ws9 "9: "
-##set $ws10 "10: "
-
 # Assign applications to workspaces
 assign [class="^qutebrowser$"] 0
 #assign [class="^firefox$"] 0
@@ -135,7 +124,7 @@ assign [class="^discord$"] 1
 assign [class="^slack$"] 1
 assign [class="^KeePassXC$"] 8
 for_window [class="Spotify"] move container to workspace 3
-for_window [title="aichat-st"] floating enable, resize set 960 270, move position center, border pixel 0, move scratchpad, scratchpad show
+for_window [class="aichat-wezterm"] floating enable, resize set 960 540, move position center, move scratchpad, scratchpad show
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -253,11 +242,11 @@ gaps top 6
 
 #
 # Border Settings
-default_border pixel 0
-default_floating_border pixel 0
+#default_border pixel 0
+#default_floating_border pixel 1
 
-#for_window [floating] border pixel 1
-#for_window [tiling] border pixel 0
+for_window [tiling] border pixel 0
+for_window [floating] border pixel 1
 
 #hide_edge_borders vertical
 
@@ -291,32 +280,30 @@ bindsym $mod+F6 exec xbacklight -inc 10
 bindsym $mod+x exec --no-startup-id $HOME/.local/bin/i3locker.sh
 
 # Zen-ify windows by floating and resizing them
-bindsym $mod+Shift+z floating enable; resize set 1152 648; move position center; border pixel 0
+bindsym $mod+Shift+z floating enable; resize set 1152 648; move position center; reload
 
 # Center floating windows
 bindsym $mod+z move position center
 
 # Open new LaTeX note docs for classes
-bindsym $mod+Shift+o exec --no-startup-id $HOME/.local/bin/unidir
+bindsym $mod+Shift+u exec --no-startup-id $HOME/.local/bin/unidir
+
+bindsym $mod+Shift+w exec --no-startup-id wezterm -e vim
 
 # Open a config file with fzf and vim (custom Kitty startup session)
-bindsym $mod+Shift+i exec --no-startup-id st -e "$HOME/.local/bin/config-editoring"
+bindsym $mod+Shift+i exec --no-startup-id wezterm -e "$HOME/.local/bin/config-editoring"
 
-# Reset colourscheme for programs like WeeChat
 bindsym $mod+Shift+p exec --no-startup-id $HOME/.local/bin/wallnew
 
-# Open ranger in wallpaper directory
-#bindsym $mod+Shift+w exec --no-startup-id st -e "$HOME/.local/bin/ranger-wallpaper"
-bindsym $mod+Shift+w exec --no-startup-id st -e "ranger $HOME/Pictures/Wallpapers"
+# Open ranger 
+bindsym $mod+Shift+f exec --no-startup-id wezterm -e ranger "$HOME"
 
-# Open ncmpcpp (music player)
-bindsym $mod+Shift+n exec --no-startup-id st -e "/usr/bin/ncmpcpp"
 
 # Start random background animation
-bindsym $mod+u exec --no-startup-id wala z
+bindsym $mod+g exec --no-startup-id wala z
 
 # Kill random background animation
-bindsym $mod+Shift+u exec --no-startup-id pkill xwinwrap
+bindsym $mod+Shift+g exec --no-startup-id pkill xwinwrap
 
 # Take screenshot
 bindsym $mod+Shift+F12 exec --no-startup-id "$HOME/.local/bin/screenshot"
@@ -327,7 +314,7 @@ bindsym $mod+Shift+F12 exec --no-startup-id "$HOME/.local/bin/screenshot"
 #exec_always --no-startup-id feh --no-fehbg --bg-center --bg-max $HOME/Pictures/Wallpapers/wallpaper
 exec_always --no-startup-id feh --no-fehbg --bg-center --bg-scale $HOME/Pictures/Wallpapers/wallpaper
 
-exec_always --no-startup-id $HOME/.local/bin/update-template-themes.sh
+#exec_always --no-startup-id $HOME/.local/bin/update-template-themes.sh
 
 #exec --no-startup-id $HOME/.local/bin/wallnew
 exec --no-startup-id /usr/bin/unclutter
