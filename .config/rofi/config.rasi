@@ -6,4 +6,4 @@ configuration {
 	display-run: "programs";
 	display-ssh: ""ssh";";
 }
-@theme "/home/quiterion/.config/rofi/themes/rofi-dark.rasi"
+@theme "/home/quiterion/.cache/wal/rofi-dark-wal.rasi"
