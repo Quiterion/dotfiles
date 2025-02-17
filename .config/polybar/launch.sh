@@ -4,7 +4,12 @@
 killall -q polybar
 
 # Wait until the processes have been shut down
-while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+while pgrep -u $UID -x polybar >/dev/null; do sleep 0.1; done
+
+# Set bg color with alpha
+COLOR=$(xrdb -query | grep '^\*background:' | cut -f2)
+export POLYBAR_BG="#CC${COLOR#\#}"
+
 
 # Launch Polybar (on multiple monitors if detected)
 if type "xrandr"; then
@@ -26,4 +31,4 @@ else
     #polybar -r top 2>&1 | tee -a /tmp/polybar.log & disown
     polybar -r bottom 2>&1 | tee -a /tmp/polybar.log & disown
 fi
-echo "Bars launched..."
+
