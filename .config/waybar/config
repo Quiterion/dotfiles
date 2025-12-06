@@ -1,0 +1,111 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 32,
+    "spacing": 0,
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": ["tray", "custom/layout", "custom/separator", "temperature", "custom/separator", "pulseaudio", "custom/separator", "backlight", "custom/separator", "battery#bat0", "battery#bat1", "custom/separator", "memory", "custom/separator", "cpu", "custom/separator", "clock"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}    ",
+        "expand": true,
+        "format-icons": {
+            "0": "󰖟",
+            "1": "󰍪",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "󰿏",
+            "6": "",
+            "7": "",
+            "8": "󰌋",
+            "9": ""
+        }
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+
+    "custom/separator": {
+        "format": "/",
+        "interval": "once",
+        "tooltip": false
+    },
+
+    "custom/layout": {
+        "exec": "~/.config/waybar/layout.sh",
+        "tooltip": false
+    },
+
+    "tray": {
+        "spacing": 12
+    },
+
+    "clock": {
+        "format": "  {:%Y-%m-%d  /  󰥔  %H:%M}",
+        "format-alt": "  {:%a %d %b %Y  /  󰥔  %H:%M:%S %Z}",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "interval": 1
+    },
+
+    "cpu": {
+        "format": " {usage:2}%",
+        "interval": 1
+    },
+
+    "memory": {
+        "format": " {:3}%",
+        "interval": 3
+    },
+
+    "temperature": {
+        "thermal-zone": 0,
+        "critical-threshold": 80,
+        "format": "{icon} {temperatureC}°C",
+        "format-critical": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", ""]
+    },
+
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent:3}%",
+        "format-icons": ["󰃞", "󰃝", "󰃟", "󰃠"]
+    },
+
+    "battery#bat0": {
+        "bat": "BAT0",
+        "states": {
+            "full": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon} {capacity:2}%",
+        "format-charging": "{icon} {capacity:2}%",
+        "format-plugged": "{icon} {capacity:2}%",
+        "format-icons": ["󰁺", "󰁻", "󰁽", "󰁿", "󰂁", "󰁹"]
+    },
+
+    "battery#bat1": {
+        "bat": "BAT1",
+        "states": {
+            "full": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon} {capacity:2}%",
+        "format-charging": "{icon} {capacity:2}%",
+        "format-plugged": "{icon} {capacity:2}%",
+        "format-icons": ["󰁺", "󰁻", "󰁽", "󰁿", "󰂁", "󰁹"]
+    },
+
+    "pulseaudio": {
+        "format": "󰕾 {volume:2}%",
+        "format-muted": "󰝟 {volume:2}%",
+        "format-bluetooth": "󰂯 {volume:2}%",
+        "on-click": "pavucontrol"
+    }
+}

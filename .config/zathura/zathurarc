@@ -13,3 +13,4 @@ set selection-clipboard clipboard
 set dbus-service true
 set synctex true
 set font "monospace bold 12"
+set show-recent 0

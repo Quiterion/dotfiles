@@ -1,17 +1,12 @@
 # bash aliases taken from previous Ubuntu & current Arch install
-# Deprecated aliases are commented out
 
-alias icat="kitty +kitten icat"
 alias please="sudo"
 
-#alias fuck="nordvpn d && nordvpn c AU"
 alias zoop="echo '👉😎👉 ~Zoop!~' | lolcat"
 
 alias moo="fortune | cowsay | lolcat"
 alias tux="fortune | cowsay -f tux | lolcat"
 #alias gnu="fortune | cowsay -f gnu | lolcat"
-
-alias timekill="rtv --enable-media -s '/random/top-all'"
 
 #alias besterm="export FBTERM_BACKGROUND_IMAGE=1 && cat $HOME/Pictures/desktops/space.fbimg > /dev/fb0; fbterm -s 28 -n "Hack""
 #alias whtfnt="echo -en "\e]P7ffffff" && clear"
@@ -26,3 +21,6 @@ alias dots="/usr/bin/git --git-dir=$HOME/.dots --work-tree=$HOME"
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias rs="ranger /home/quiterion/Skool/"
+
+alias f='fzf | xargs -I{} vim -c "cd %:h" "{}"'
+

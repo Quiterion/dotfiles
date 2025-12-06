@@ -1,17 +1,296 @@
 #!/usr/bin/env bash
 
-WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+WALLPAPER_DIR="${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}"
+WALLPAPER_LINK="$WALLPAPER_DIR/wallpaper"
+THEME_MODE_FILE="$HOME/.cache/wal/theme_mode"
 
-if [ -z "$1" ]; then
-    img="$(find $WALLPAPER_DIR -type f \( -name '*.jpg' -o -name '*.png' \) | shuf -n 1)"
-else
-    img="$1"
+# Detect if running under Wayland
+is_wayland() {
+    [[ -n "$WAYLAND_DISPLAY" ]] || [[ "$XDG_SESSION_TYPE" == "wayland" ]]
+}
+
+# Resolve a path to an absolute path (handles relative inputs)
+resolve_path() {
+    local target=${1:?}
+    if command -v realpath >/dev/null 2>&1; then
+        realpath -- "$target" 2>/dev/null || true
+    elif command -v readlink >/dev/null 2>&1 && readlink -f . >/dev/null 2>&1; then
+        readlink -f -- "$target" 2>/dev/null || true
+    else
+        if [[ "$target" == /* ]]; then
+            printf '%s\n' "$target"
+        else
+            # Fallback: join PWD with relative path (no symlink canonicalization)
+            local dir base
+            dir=$(cd -- "$(dirname -- "$target")" && pwd)
+            base=$(basename -- "$target")
+            printf '%s/%s\n' "$dir" "$base"
+        fi
+    fi
+}
+
+validate_image_path() {
+    local img=${1:?image path required}
+    if [[ ! -f "$img" ]]; then
+        echo "Error: image not found: $img" >&2
+        exit 2
+    fi
+
+    local validated=false
+    if command -v file >/dev/null 2>&1; then
+        local mime
+        mime=$(file --brief --mime-type --dereference -- "$img" 2>/dev/null || true)
+        if [[ -n "$mime" ]]; then
+            if [[ $mime == image/* ]]; then
+                validated=true
+            else
+                echo "Error: not an image (detected $mime): $img" >&2
+                exit 3
+            fi
+        fi
+    fi
+
+    if [[ $validated == false ]]; then
+        local candidate="$img"
+        local resolved
+        resolved=$(resolve_path "$img")
+        if [[ -n "$resolved" ]]; then
+            candidate="$resolved"
+        fi
+        local ext=${candidate##*.}
+        ext=${ext,,}
+        case "$ext" in
+        jpg | jpeg | png | webp | bmp | gif | tiff | tif | svg | heic | heif | avif)
+            validated=true
+            ;;
+        *)
+            echo "Error: unsupported image format: $img" >&2
+            exit 3
+            ;;
+        esac
+    fi
+}
+
+normalize_image_path() {
+    local img=${1:?image path required}
+    img="$(resolve_path "$img")"
+    if [[ -z "$img" ]]; then
+        echo "Error: unable to resolve image path" >&2
+        exit 2
+    fi
+    validate_image_path "$img"
+    printf '%s\n' "$img"
+}
+
+usage() {
+    cat <<EOF
+Usage: wallnew [OPTION]... [IMG]
+Sets a wallpaper, generates and applies theme.
+Selects a random wallpaper in \$WALLPAPER_DIR is IMG is excluded.
+
+  -A, --all=IMG      Set wallpaper and apply theme (random if omitted)
+  -a, --apply[=IMG]  Apply colourscheme + resets only (uses link if omitted)
+  -s, --set=IMG      Set wallpaper only
+  -r, --random       Random wallpaper + apply theme
+  -l, --light        Use wal's light mode when generating theme
+  -h, --help         Show this help
+EOF
+}
+
+pick_random_wallpaper() {
+    find "$WALLPAPER_DIR" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' -o -iname '*.gif' \) |
+        shuf -n 1
+}
+
+set_wallpaper() {
+    local img=${1:?image path required}
+    if [[ ! -f "$img" ]]; then
+        echo "Error: image not found: $img" >&2
+        exit 2
+    fi
+    ln -sf -- "$img" "$WALLPAPER_LINK"
+
+    if is_wayland; then
+        # Sway handles wallpaper natively
+        swaymsg output "*" bg "$WALLPAPER_LINK" fill
+    else
+        # X11: use feh
+        feh --no-fehbg --bg-center --bg-scale "$WALLPAPER_LINK"
+    fi
+}
+
+nvim_broadcast_remote() {
+    local light=${1:-false}
+    local remote_cmd='<Esc><Cmd>LualineReloadPywal<CR>'
+
+    # Only update colorscheme if mode changed
+    local current
+    current=$(<"$THEME_MODE_FILE" 2>/dev/null) || current=""
+    if [[ "$light" != "$current" ]]; then
+        if [[ $light == true ]]; then
+            sed -i 's/github_dark/github_light/g' ~/.config/nvim/lua/plugins/colorscheme.lua
+            remote_cmd='<Esc><Cmd>colo github_light | LualineReloadPywal<CR>'
+        else
+            sed -i 's/github_light/github_dark/g' ~/.config/nvim/lua/plugins/colorscheme.lua
+            remote_cmd='<Esc><Cmd>colo github_dark | LualineReloadPywal<CR>'
+        fi
+    fi
+    local client=${NVIM_REMOTE_CLIENT:-nvim}
+
+    declare -a errors
+    declare -A servers
+    local pid addr rest
+
+    while IFS=' ' read -r _ _ _ _ addr _ rest; do
+        [[ $rest =~ \"nvim\",pid=([0-9]+) ]] || continue
+        pid=${BASH_REMATCH[1]}
+        [[ -n $addr && $addr != *:* ]] || continue
+        servers["$addr"]=$pid
+    done < <(ss -H -x -lpn 2> >(while read -r err; do errors+=("$err"); done))
+
+    for addr in "${!servers[@]}"; do
+        nvim --server "$addr" --remote-send "$remote_cmd" >/dev/null &
+    done
+}
+
+apply_colourscheme() {
+    local img=${1:?image path required}
+    local light=${2:-false}
+    if [[ ! -f "$img" ]]; then
+        echo "Error: image not found: $img" >&2
+        exit 2
+    fi
+    local -a wal_args=(-nqesti)
+    if [[ $light == true ]]; then
+        wal_args=(-l "${wal_args[@]}")
+    fi
+
+    wal "${wal_args[@]}" "$img"
+
+    # Apply template themes (rofi, dunst) - works on both X11 and Wayland
+    ~/.local/bin/update-template-themes.sh &
+
+    if is_wayland; then
+        # Wayland: waybar auto-reloads via CSS, wezterm watches its toml
+        swaymsg reload &
+    else
+        # X11: merge Xresources and launch polybar
+        xrdb -merge ~/.Xresources
+        ~/.config/polybar/launch.sh &
+        i3-msg reload >/dev/null &
+    fi
+
+    pkill dunst || true # will be restarted with new scheme by dbus-daemon
+    nvim_broadcast_remote "$light"
+
+    local current
+    current=$(<"$THEME_MODE_FILE" 2>/dev/null) || current=""
+    if [[ "$light" != "$current" ]]; then
+        if [[ $light == true ]]; then
+            pywalfox light
+        else
+            pywalfox dark
+        fi
+        echo "$light" > "$THEME_MODE_FILE"
+    fi
+    pywalfox update
+}
+
+apply_all() {
+    local img=${1:?image path required}
+    local light=${2:-false}
+    img="$(normalize_image_path "$img")"
+    set_wallpaper "$img"
+    apply_colourscheme "$img" "$light"
+}
+
+main() {
+    local light_mode=false
+    local -a args=()
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+        -l | --light)
+            light_mode=true
+            shift
+            ;;
+        --)
+            shift
+            args+=("$@")
+            break
+            ;;
+        *)
+            args+=("$1")
+            shift
+            ;;
+        esac
+    done
+
+    set -- "${args[@]}"
+
+    local cmd="${1:-}"
+    case "$cmd" in
+    -h | --help)
+        usage
+        ;;
+    -r | --random)
+        local img
+        img="$(pick_random_wallpaper)"
+        apply_all "$img" "$light_mode"
+        ;;
+    -a | --apply)
+        shift || true
+        local img
+        if [[ -n "${1:-}" ]]; then
+            img="$(normalize_image_path "$1")"
+        else
+            if [[ -L "$WALLPAPER_LINK" || -f "$WALLPAPER_LINK" ]]; then
+                img="$(normalize_image_path "$WALLPAPER_LINK")"
+            else
+                echo "No image provided and no wallpaper link found at $WALLPAPER_LINK" >&2
+                exit 1
+            fi
+        fi
+        apply_colourscheme "$img" "$light_mode"
+        ;;
+    -s | --set)
+        shift || true
+        [[ -n "${1:-}" ]] || {
+            echo "--set requires an IMG path" >&2
+            exit 1
+        }
+        set_wallpaper "$(normalize_image_path "$1")"
+        ;;
+    -A | --all)
+        shift || true
+        local img
+        if [[ -n "${1:-}" ]]; then
+            img="$1"
+        else
+            img="$(pick_random_wallpaper)"
+        fi
+        apply_all "$img" "$light_mode"
+        ;;
+    "")
+        # Backward-compatible: no args -> random + apply
+        local img
+        img="$(pick_random_wallpaper)"
+        apply_all "$img" "$light_mode"
+        ;;
+    *)
+        # Backward-compatible: single arg treated as image path
+        if [[ $# -eq 1 ]]; then
+            apply_all "$1" "$light_mode"
+        else
+            usage
+            exit 1
+        fi
+        ;;
+    esac
+}
+
+if [[ "${BASH_SOURCE[0]-}" == "$0" ]]; then
+    # Only enforce strict mode when executed, not when sourced
+    set -euo pipefail
+    main "$@"
 fi
-wal -nqesi "$img"
-xrdb -merge ~/.Xresources 
-~/.config/polybar/launch.sh &
-i3-msg reload &
-pywalfox update &
-ln -sf "$img" $WALLPAPER_DIR/wallpaper
-feh --no-fehbg --bg-center --bg-scale $WALLPAPER_DIR/wallpaper 
-#pidof st | xargs kill -s USR1 

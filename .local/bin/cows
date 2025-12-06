@@ -1,13 +1,13 @@
 #!/bin/bash
 
-interrupt(){
+interrupt() {
     echo
     exit 2
 }
 trap interrupt SIGINT
 while true; do
-	fortune -s \
-        | cowsay -f $(find /usr/share/cows/ -type f -iname '*.cow' | shuf | head -1) \
-        | lolcat -a -d 6 -F 0.2 -s 25
+    fortune -s |
+        cowsay -f $(find /usr/share/cowsay/ -type f -iname '*.cow' | shuf | head -1) |
+        lolcat -a -d 6 -F 0.2 -s 25
     echo
 done

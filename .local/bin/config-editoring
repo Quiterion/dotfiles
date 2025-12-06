@@ -2,5 +2,4 @@
 
 set -oe pipefail
 
-cd $XDG_CONFIG_HOME
-fzf -e | xargs -r vim
+fzf -e --print0 --walker-root="/home/quiterion/.config/" | xargs -0 -o nvim

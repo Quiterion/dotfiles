@@ -1,0 +1,128 @@
+/* Waybar style - matches polybar config */
+/* Pywal colors imported from ~/.cache/wal/colors-waybar.css */
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+    font-family: "Hack Nerd Font";
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: alpha(@background, 0.8);
+    color: @foreground;
+}
+
+.modules-left {
+    padding-left: 10px;
+}
+
+/* Remove all default padding/margins for a cleaner look */
+#workspaces,
+#mode,
+#tray,
+#clock,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#battery,
+#pulseaudio,
+#custom-separator {
+    padding: 0 8px;
+    margin: 0;
+}
+
+/* Workspaces */
+#workspaces button {
+    padding: 0;
+    color: @foreground;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+#workspaces button:hover {
+    background: transparent;
+    box-shadow: none;
+}
+
+#workspaces button.focused {
+    color: @color3;
+}
+
+#workspaces button.urgent {
+    color: @color1;
+}
+
+/* Separator */
+#custom-separator {
+    color: @foreground;
+    padding: 0 4px;
+}
+
+#custom-layout {
+    padding: 0 8px;
+}
+
+/* Mode (resize, etc) */
+#mode {
+    color: @color1;
+}
+
+/* Module colors - matching polybar xrdb colors */
+#cpu {
+    color: @color6;
+}
+
+#memory {
+    color: @color8;
+}
+
+#temperature {
+    color: @color6;
+}
+
+#temperature.critical {
+    color: @color1;
+}
+
+#backlight {
+    color: @color5;
+}
+
+#battery {
+    color: @color4;
+}
+
+#battery.charging {
+    color: @color6;
+}
+
+#battery.warning {
+    color: @color3;
+}
+
+#battery.critical {
+    color: @color1;
+}
+
+#pulseaudio {
+    color: @color8;
+}
+
+#pulseaudio.muted {
+    color: @color1;
+}
+
+#tray {
+    padding: 0 12px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}

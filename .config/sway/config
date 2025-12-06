@@ -1,0 +1,298 @@
+# Sway config file (converted from i3)
+# See `man 5 sway` for a complete reference
+
+# Set modifier
+set $mod Mod4
+
+# Font for window titles
+font pango:Hack Nerd Font Mono 10
+
+# Direction keys
+set $up k
+set $down j
+set $left h
+set $right l
+
+# Drag floating windows with $mod + mouse
+floating_modifier $mod normal
+
+### Input configuration
+
+# TrackPoint - max acceleration
+input "2:10:TPPS/2_IBM_TrackPoint" {
+    accel_profile flat
+    pointer_accel 1.0
+}
+
+# Touchpad - disable "disable while typing"
+input "1739:0:Synaptics_TM3276-022" {
+    dwt disabled
+    tap enabled
+    natural_scroll disabled
+}
+
+# Keyboard - uncomment to swap caps and escape
+# input type:keyboard {
+#     xkb_options caps:swapescape
+# }
+
+### Output configuration
+
+# Wallpaper
+output * bg ~/Pictures/Wallpapers/wallpaper fill
+
+### Key bindings
+
+# Terminal
+bindsym $mod+Return exec wezterm
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Launcher (rofi-wayland or wofi)
+bindsym $mod+d exec rofi -show run
+bindsym $mod+Shift+d exec wezterm start --class "codex-wezterm" -e '/home/quiterion/.local/bin/codex-qa.sh'
+# Claude scratchpad - just spawn, use $mod+minus to toggle if already exists
+bindsym $mod+Shift+c exec wezterm start --class "claude-scratchpad" -e /home/quiterion/.local/bin/claude-qa.sh
+
+# Change focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Layout
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+t layout toggle split
+bindsym $mod+e split toggle
+
+# Floating
+bindsym $mod+Shift+space floating toggle; resize set 960 540; move position center
+bindsym $mod+space focus mode_toggle
+
+# Focus parent/child
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# Workspaces
+set $ws1 "0"
+set $ws2 "1"
+set $ws3 "2"
+set $ws4 "3"
+set $ws5 "4"
+set $ws6 "5"
+set $ws7 "6"
+set $ws8 "7"
+set $ws9 "8"
+set $ws10 "9"
+
+# Assign applications to workspaces
+# Note: use app_id for Wayland-native apps, class for XWayland
+assign [app_id="^qutebrowser$"] 0
+assign [class="^qutebrowser$"] 0
+assign [class="^discord$"] 1
+assign [class="^slack$"] 1
+assign [class="^KeePassXC$"] 8
+for_window [class="Spotify"] move container to workspace 3
+for_window [app_id="codex-wezterm"] floating enable, resize set 520 350, move position center, move scratchpad, scratchpad show
+for_window [app_id="claude-scratchpad"] floating enable, resize set 660 315, move position center, move scratchpad, scratchpad show
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# Reload/restart/exit
+bindsym $mod+Shift+r reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+
+# Resize mode
+mode "resize" {
+    bindsym $left       resize shrink width 5 px
+    bindsym $down       resize grow height 5 px
+    bindsym $up         resize shrink height 5 px
+    bindsym $right      resize grow width 5 px
+
+    bindsym Left        resize shrink width 5 px
+    bindsym Down        resize grow height 5 px
+    bindsym Up          resize shrink height 5 px
+    bindsym Right       resize grow width 5 px
+
+    # Rapid resize with Shift
+    bindsym Shift+$left       resize shrink width 50 px
+    bindsym Shift+$down       resize grow height 50 px
+    bindsym Shift+$up         resize shrink height 50 px
+    bindsym Shift+$right      resize grow width 50 px
+
+    bindsym Shift+Left        resize shrink width 50 px
+    bindsym Shift+Down        resize grow height 50 px
+    bindsym Shift+Up          resize shrink height 50 px
+    bindsym Shift+Right       resize grow width 50 px
+
+    # Fine resize with Ctrl
+    bindsym Ctrl+$left       resize shrink width 1 px
+    bindsym Ctrl+$down       resize grow height 1 px
+    bindsym Ctrl+$up         resize shrink height 1 px
+    bindsym Ctrl+$right      resize grow width 1 px
+
+    bindsym Ctrl+Left        resize shrink width 1 px
+    bindsym Ctrl+Down        resize grow height 1 px
+    bindsym Ctrl+Up          resize shrink height 1 px
+    bindsym Ctrl+Right       resize grow width 1 px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+### Colors (pywal)
+# Generated by pywal - run 'wal -i <image>' to regenerate
+include ~/.cache/wal/colors-sway
+
+### Gaps and borders
+gaps inner 1
+gaps top -1
+gaps left -1
+gaps right -1
+gaps bottom 0
+
+for_window [tiling] border pixel 1
+for_window [floating] border pixel 1
+hide_edge_borders smart
+title_align left
+for_window [all] title_format " %title"
+
+### Custom bindings
+
+# Volume (using pactl/pamixer)
+bindsym $mod+F2 exec pamixer -d 10
+bindsym $mod+F3 exec pamixer -i 10
+bindsym $mod+F1 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym $mod+F4 exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Media keys (standard XF86 keys also work)
+bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Music control (mpc)
+bindsym $mod+p exec mpc toggle
+bindsym $mod+F10 exec mpc prev
+bindsym $mod+F11 exec mpc next
+
+# Brightness (brightnessctl instead of xbacklight)
+bindsym $mod+F5 exec brightnessctl set 10%-
+bindsym $mod+F6 exec brightnessctl set 10%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+
+# Lock screen (random wallpaper)
+bindsym $mod+Shift+x exec $HOME/.local/bin/i3locker.sh
+
+# Zen-ify windows
+bindsym $mod+Shift+z floating enable; resize set 1152 648; move position center
+
+# Center floating windows
+bindsym $mod+z move position center
+
+# Custom launchers
+bindsym $mod+Shift+u exec $HOME/.local/bin/unidir
+bindsym $mod+Shift+w exec wezterm -e vim
+bindsym $mod+Shift+i exec wezterm -e "$HOME/.local/bin/config-editoring"
+bindsym $mod+Shift+p exec $HOME/.local/bin/wallnew
+bindsym $mod+Shift+f exec wezterm -e ranger "$HOME"
+
+# Screenshot (grim + slurp instead of X11 tools)
+bindsym $mod+Shift+F12 exec grim ~/Pictures/Screenshots/$(date +%Y%m%d_%H%M%S).png
+bindsym Print exec grim ~/Pictures/Screenshots/$(date +%Y%m%d_%H%M%S).png
+# Interactive selection:
+# bindsym $mod+Print exec grim -g "$(slurp)" ~/Pictures/Screenshots/$(date +%Y%m%d_%H%M%S).png
+
+### Startup applications
+
+# Hide mouse cursor (seat directive instead of unclutter)
+seat * hide_cursor 3000
+
+# Network manager applet
+exec nm-applet --indicator
+
+# Apply pywal theme on startup - disabled for now, run manually
+# exec_always test -f ~/.cache/wal/colors.sh && ~/.local/bin/wallnew --apply
+
+# Pre-launch Claude Code scratchpad
+# exec wezterm start --class "claude-scratchpad" -e /home/quiterion/.local/bin/claude-qa.sh
+# exec sleep 1 && swaymsg '[app_id="claude-scratchpad"] move scratchpad'
+
+### Effects (swayfx only - comment out if using regular sway)
+# Blur disabled - was causing lag. Re-enable after testing.
+blur enable
+blur_xray enable
+blur_passes 2
+blur_radius 4
+
+layer_effects "rofi" blur enable
+layer_effects "rofi" blur_xray enable
+layer_effects "waybar" blur enable
+layer_effects "waybar" blur_xray enable
+layer_effects "notifications" blur enable
+layer_effects "notifications" blur_xray enable
+
+# Apply blur to specific apps
+# layer_effects "waybar" blur enable
+#for_window [app_id="org.wezfurlong.wezterm"] blur enable
+
+# Optional: shadows and rounded corners
+# shadows enable
+# corner_radius 8
+
+### Status bar (waybar - polybar equivalent for Wayland)
+bar swaybar_command waybar
+
+include ~/.config/sway/outputs
+
+include /etc/sway/config.d/*

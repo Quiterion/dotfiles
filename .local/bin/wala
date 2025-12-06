@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Animated wallpapers using xwinwrap - X11 only
+# For Wayland alternatives, see: mpvpaper
+
+# Check if running under Wayland
+if [[ -n "$WAYLAND_DISPLAY" ]] || [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+    echo "Animated wallpapers (xwinwrap) are not supported on Wayland." >&2
+    echo "Consider using 'mpvpaper' as an alternative:" >&2
+    echo "  mpvpaper -o 'no-audio loop' '*' /path/to/video.mp4" >&2
+    exit 0
+fi
+
 trap "walc r && killall mpv" INT HUP TERM
 
 #get random wall

@@ -1,5 +1,7 @@
 -- Read the docs: https://www.lunarvim.org/docs/configuration
 -- Example configs: https://github.com/LunarVim/starter.lvim
+-- Debug startup paths
+
 
 lvim.leader = ","
 lvim.format_on_save.enabled = true
@@ -9,7 +11,7 @@ lvim.use_icons = true
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.foldmethod = "expr"                     -- default is "normal"
+vim.opt.foldmethod = "indent"                   -- default is "normal"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- default is ""
 vim.opt.foldlevel = 99
 vim.opt.foldtext =
@@ -17,8 +19,18 @@ vim.opt.foldtext =
 vim.opt.wrap = true
 vim.opt.hlsearch = false
 vim.opt.cmdheight = 0
+vim.o.winborder = 'single'
 
 lvim.autocommands = {
+    {
+        { "FileType" },
+        {
+            pattern = "tex",
+            callback = function()
+                vim.cmd("call vimtex#init()")
+            end,
+        },
+    },
     {
         { "ColorScheme" },
         {
@@ -28,11 +40,15 @@ lvim.autocommands = {
                 -- and `#ffffff` to the color you want
                 -- see `:h nvim_set_hl` for more options
                 vim.api.nvim_set_hl(0, "NormalFloat", { bg = nil })
+                vim.api.nvim_set_hl(0, "Pmenu", { bg = nil })
                 vim.api.nvim_set_hl(0, "CursorLine", { bg = nil })
-                --vim.api.nvim_set_hl(0, "VertSplit", { fg = "#000000", bg = nil })
+                vim.api.nvim_set_hl(0, "ColorColumn", { bg = nil })
+                vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#737aa2", bg = nil })
+                vim.api.nvim_set_hl(0, "VertSplit", { fg = "#000000", bg = nil })
                 vim.api.nvim_set_hl(0, "StatusLine", { bg = nil })
                 vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644", bg = nil })
-                vim.api.nvim_set_hl(0, "FloatBorder", { bg = nil })
+                vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#737aa2", bg = nil })
+                --vim.api.nvim_set_hl(0, "RenderMarkdownCodeBorder", { fg = "#737aa2", bg = nil })
                 vim.api.nvim_set_hl(0, "WhichkeyFloat", { bg = nil })
                 vim.api.nvim_set_hl(0, "TelescopeNormal", { ctermbg = nil, guibg = nil })
                 vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { fg = "#1abc9c", bg = nil })
@@ -43,10 +59,9 @@ lvim.autocommands = {
                 vim.api.nvim_set_hl(0, "TabLineFill", { bg = nil })
                 vim.api.nvim_set_hl(0, "NvimTreeWindowPicker", { fg = "#ededed", bg = nil, bold = true })
                 vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = "#ffffff", bg = nil })
-                --vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#808080", bg = nil })
+                vim.api.nvim_set_hl(0, "Folded", { fg = "#8b949e", bg = nil })
+                vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#808080", bg = nil })
                 vim.api.nvim_set_keymap("n", "<MiddleMouse>", "<Nop>", { noremap = true, silent = true })
-                vim.api.nvim_set_keymap("n", "<F8>", "<cmd>",
-                    { noremap = true, silent = true, callback = function() vim.diagnostic.goto_next() end })
             end,
         },
     },
@@ -65,13 +80,6 @@ formatters.setup {
     },
 }
 
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-    {
-        name = "shellcheck",
-        args = { "--severity", "warning" },
-    },
-}
 
 local code_actions = require "lvim.lsp.null-ls.code_actions"
 code_actions.setup {
@@ -79,6 +87,7 @@ code_actions.setup {
         name = "proselint",
     },
 }
+
 
 require('lspconfig').pyright.setup {
     settings = {
@@ -106,19 +115,57 @@ lvim.builtin.bufferline.options.offsets = {
 
 -- lazy.nvim plugins
 
+--table.insert(lvim.plugins, {
+--    "zbirenbaum/copilot-cmp",
+--    event = "InsertEnter",
+--    dependencies = { "zbirenbaum/copilot.lua" },
+--    config = function()
+--        vim.defer_fn(function()
+--            require("copilot").setup({
+--                suggestion = { enabled = false },
+--                panel = { completion = false },
+--            })
+--            require("copilot_cmp").setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
+--        end, 100)
+--    end,
+--})
+
 table.insert(lvim.plugins, {
-    "zbirenbaum/copilot-cmp",
-    event = "InsertEnter",
-    dependencies = { "zbirenbaum/copilot.lua" },
-    config = function()
-        vim.defer_fn(function()
-            require("copilot").setup({
-                suggestion = { enabled = false },
-                panel = { completion = false },
-            })
-            require("copilot_cmp").setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
-        end, 100)
-    end,
+    "folke/zen-mode.nvim",
+    opts = {
+        window = {
+            backdrop = 1.0,
+            -- height and width can be:
+            -- * an absolute number of cells when > 1
+            -- * a percentage of the width / height of the editor when <= 1
+            -- * a function that returns the width or the height
+            width = 1,  -- width of the Zen window
+            height = 1, -- height of the Zen window
+            -- by default, no options are changed for the Zen window
+            -- uncomment any of the options below, or add other vim.wo options you want to apply
+            options = {
+                signcolumn = "no",
+                number = false,         -- disable number column
+                relativenumber = false, -- disable relative numbers
+                cursorline = false,     -- disable cursorline
+                cursorcolumn = false,   -- disable cursor column
+                foldcolumn = "0",       -- disable fold column
+                list = false,           -- disable whitespace characters
+            },
+        },
+        plugins = {
+            -- disable some global vim options (vim.o...)
+            -- comment the lines to not apply the options
+            options = {
+                enabled = true,
+                ruler = false,   -- disables the ruler text in the cmd line area
+                showcmd = false, -- disables the command in the last line of the screen
+                -- you may turn on/off statusline in zen mode by setting 'laststatus'
+                -- statusline will be shown only if 'laststatus' == 3
+                laststatus = 0, -- turn off the statusline in zen mode
+            },
+        }
+    }
 })
 
 table.insert(lvim.plugins, {
@@ -144,62 +191,148 @@ lvim.builtin.cmp.enabled = function()
     end
 end
 
+
+-- table.insert(lvim.plugins, {
+--     "yetone/avante.nvim",
+--     event = "VeryLazy",
+--     lazy = false,
+--     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+--     opts = {
+--         -- add any opts here
+--         claude = {
+--             endpoint = "https://api.anthropic.com",
+--             model = "claude-3-7-sonnet-20250219",
+--             timeout = 30000, -- Timeout in milliseconds
+--             temperature = 0,
+--             max_tokens = 8912,
+--             disable_tools = false,
+--         },
+--         behaviour = { enable_claude_text_editor_tool_mode = true, },
+--     },
+--     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+--     build = "make",
+--     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+--     dependencies = {
+--         "stevearc/dressing.nvim",
+--         "nvim-lua/plenary.nvim",
+--         "MunifTanjim/nui.nvim",
+--         --- The below dependencies are optional,
+--         "echasnovski/mini.pick",         -- for file_selector provider mini.pick
+--         "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+--         "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
+--         "ibhagwan/fzf-lua",              -- for file_selector provider fzf
+--         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
+--         "zbirenbaum/copilot.lua",        -- for providers='copilot'
+--         {
+--             -- support for image pasting
+--             "HakonHarnes/img-clip.nvim",
+--             event = "VeryLazy",
+--             opts = {
+--                 -- recommended settings
+--                 default = {
+--                     embed_image_as_base64 = false,
+--                     prompt_for_file_name = false,
+--                     drag_and_drop = {
+--                         insert_mode = true,
+--                     },
+--                     -- required for Windows users
+--                     use_absolute_path = true,
+--                 },
+--             },
+--         },
+--         {
+--             -- Make sure to set this up properly if you have lazy=true
+--             'MeanderingProgrammer/render-markdown.nvim',
+--             opts = {
+--                 file_types = { "markdown", "Avante" },
+--             },
+--             ft = { "markdown", "Avante" },
+--         },
+--     },
+-- })
+
 table.insert(lvim.plugins, {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-    opts = {
-        -- add any opts here
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-    dependencies = {
-        "stevearc/dressing.nvim",
-        "nvim-lua/plenary.nvim",
-        "MunifTanjim/nui.nvim",
-        --- The below dependencies are optional,
-        "echasnovski/mini.pick",         -- for file_selector provider mini.pick
-        "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-        "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
-        "ibhagwan/fzf-lua",              -- for file_selector provider fzf
-        "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
-        "zbirenbaum/copilot.lua",        -- for providers='copilot'
-        {
-            -- support for image pasting
-            "HakonHarnes/img-clip.nvim",
-            event = "VeryLazy",
-            opts = {
-                -- recommended settings
-                default = {
-                    embed_image_as_base64 = false,
-                    prompt_for_file_name = false,
-                    drag_and_drop = {
-                        insert_mode = true,
-                    },
-                    -- required for Windows users
-                    use_absolute_path = true,
-                },
+    "lervag/vimtex",
+    ft = "tex",
+    lazy = false, -- we don't want to lazy load VimTeX
+    -- tag = "v2.15", -- uncomment to pin to a specific release
+    init = function()
+        -- edit binding
+        vim.g.tex_flavor = 'latex'
+        vim.g.vimtex_view_method = 'zathura'
+        vim.g.vimtex_quickfix_mode = 0
+        vim.g.vimtex_compiler_latexmk = {
+            build_dir = '',
+            callback = 1,
+            continuous = 1,
+            executable = 'latexmk',
+            hooks = {},
+            options = {
+                '-shell-escape',
+                '-verbose',
+                '-synctex=1',
+                '-file-line-error',
+                '-interaction=nonstopmode',
             },
-        },
-        {
-            -- Make sure to set this up properly if you have lazy=true
-            'MeanderingProgrammer/render-markdown.nvim',
-            opts = {
-                file_types = { "markdown", "Avante" },
-            },
-            ft = { "markdown", "Avante" },
-        },
-    },
-}
+        }
+        vim.g.tex_conceal = 'abdmg'
+    end,
+})
 
-)
+-- copilot setup
+--
+-- require('copilot').setup({
+--     panel = {
+--         enabled = true,
+--         auto_refresh = false,
+--         keymap = {
+--             jump_prev = "[[",
+--             jump_next = "]]",
+--             accept = "<CR>",
+--             refresh = "gr",
+--             open = "<M-CR>"
+--         },
+--         layout = {
+--             position = "bottom", -- | top | left | right | horizontal | vertical
+--             ratio = 0.4
+--         },
+--     },
+--     suggestion = {
+--         enabled = true,
+--         auto_trigger = false,
+--         hide_during_completion = true,
+--         debounce = 75,
+--         keymap = {
+--             accept = "<M-l>",
+--             accept_word = false,
+--             accept_line = false,
+--             next = "<M-]>",
+--             prev = "<M-[>",
+--             dismiss = "<C-]>",
+--         },
+--     },
+--     filetypes = {
+--         yaml = false,
+--         markdown = true,
+--         help = false,
+--         gitcommit = false,
+--         gitrebase = false,
+--         hgcommit = false,
+--         svn = false,
+--         cvs = false,
+--         ["."] = false,
+--     },
+--     copilot_node_command = 'node', -- Node.js version must be > 18.x
+--     server_opts_overrides = {},
+-- })
+--
+vim.cmd("call vimtex#init()")
 
+local pywal_theme = require("lualine.themes.pywal")
+lvim.builtin.lualine.options.theme = pywal_theme
 
-local theme = require("lualine.themes.pywal")
-lvim.builtin.lualine.options.theme = theme
-
+-- maps.n["<leader>tc"] = { ":VimtexCompile<CR>", desc = "VimTex compile" }
+lvim.builtin.which_key.mappings["tc"] = { ":VimtexCompile<CR>", "VimTex compile" }
 
 -- alpha config
 
