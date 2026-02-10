@@ -1,16 +1,17 @@
 {
     "layer": "top",
     "position": "bottom",
-    "height": 32,
+    "height": 14,
     "spacing": 0,
+    "exclusive": true,
 
-    "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-right": ["tray", "custom/layout", "custom/separator", "temperature", "custom/separator", "pulseaudio", "custom/separator", "backlight", "custom/separator", "battery#bat0", "battery#bat1", "custom/separator", "memory", "custom/separator", "cpu", "custom/separator", "clock"],
+    "modules-left": ["sway/workspaces", "custom/separator", "custom/layout", "sway/mode"],
+    "modules-right": ["tray",  "custom/separator", "temperature", "custom/separator", "pulseaudio", "custom/separator", "backlight", "custom/separator", "battery#bat0", "battery#bat1", "custom/separator", "memory", "custom/separator", "cpu", "custom/separator", "clock"],
 
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
-        "format": "{icon}    ",
+        "format": "{icon}",
         "expand": true,
         "format-icons": {
             "0": "󰖟",
@@ -42,6 +43,7 @@
     },
 
     "tray": {
+        "icon-size": 12,
         "spacing": 12
     },
 

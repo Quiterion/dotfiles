@@ -4,7 +4,7 @@
 
 * {
     font-family: "Hack Nerd Font";
-    font-size: 14px;
+    font-size: 13;
     min-height: 0;
 }
 
@@ -13,33 +13,33 @@ window#waybar {
     color: @foreground;
 }
 
-.modules-left {
-    padding-left: 10px;
-}
-
-/* Remove all default padding/margins for a cleaner look */
-#workspaces,
+#custom-layout,
 #mode,
 #tray,
-#clock,
-#cpu,
-#memory,
 #temperature,
+#pulseaudio,
 #backlight,
 #battery,
-#pulseaudio,
-#custom-separator {
-    padding: 0 8px;
-    margin: 0;
+#memory,
+#cpu,
+#clock {
+    padding: 1 0 0 0;
+    margin: 0 16;
 }
+
+#workspaces {
+    padding: 1 0 0 0;
+    margin: 0 4;
+}
+
 
 /* Workspaces */
 #workspaces button {
-    padding: 0;
     color: @foreground;
     background: transparent;
     border: none;
     border-radius: 0;
+    padding: 0 12;
 }
 
 #workspaces button:hover {
@@ -58,12 +58,8 @@ window#waybar {
 /* Separator */
 #custom-separator {
     color: @foreground;
-    padding: 0 4px;
 }
 
-#custom-layout {
-    padding: 0 8px;
-}
 
 /* Mode (resize, etc) */
 #mode {
@@ -116,7 +112,7 @@ window#waybar {
 }
 
 #tray {
-    padding: 0 12px;
+    padding: 0 0 0 0;
 }
 
 #tray > .passive {
