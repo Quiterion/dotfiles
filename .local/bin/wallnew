@@ -168,7 +168,7 @@ apply_colourscheme() {
     wal "${wal_args[@]}" "$img"
 
     # Apply template themes (rofi, dunst) - works on both X11 and Wayland
-    ~/.local/bin/update-template-themes.sh &
+    # ~/.local/bin/update-template-themes.sh &
 
     if is_wayland; then
         # Wayland: waybar auto-reloads via CSS, wezterm watches its toml
@@ -185,15 +185,15 @@ apply_colourscheme() {
 
     local current
     current=$(<"$THEME_MODE_FILE" 2>/dev/null) || current=""
-    if [[ "$light" != "$current" ]]; then
-        if [[ $light == true ]]; then
-            pywalfox light
-        else
-            pywalfox dark
-        fi
-        echo "$light" > "$THEME_MODE_FILE"
-    fi
-    pywalfox update
+    # if [[ "$light" != "$current" ]]; then
+    #     if [[ $light == true ]]; then
+    #         pywalfox light
+    #     else
+    #         pywalfox dark
+    #     fi
+    #     echo "$light" > "$THEME_MODE_FILE"
+    # fi
+    # pywalfox update
 }
 
 apply_all() {

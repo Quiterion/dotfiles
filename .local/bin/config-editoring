@@ -2,4 +2,6 @@
 
 set -oe pipefail
 
-fzf -e --print0 --walker-root="/home/quiterion/.config/" | xargs -0 -o nvim
+selected="$(fzf -e --walker-root="/home/quiterion/.config/")" || exit 0
+cd "$(dirname "$selected")"
+nvim "$selected"

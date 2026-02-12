@@ -2,9 +2,12 @@ return {
   "lervag/vimtex",
   ft = "tex",
   lazy = false,
+  keys = {
+    { "<leader>tc", "<cmd>VimtexCompile<CR>", desc = "VimTex compile" },
+  },
   init = function()
     vim.g.tex_flavor = "latex"
-    vim.g.vimtex_view_method = "zathura"
+    vim.g.vimtex_view_method = "zathura_simple"
     vim.g.vimtex_quickfix_mode = 0
     vim.g.vimtex_compiler_latexmk = {
       build_dir = "",

@@ -39,7 +39,7 @@ local function apply_transparency()
 
   -- UI elements / popups
   vim.api.nvim_set_hl(0, "Pmenu", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "PmenuSel", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#3d4048", bold = true })
   vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "NONE" })
   vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "NONE" })
   vim.api.nvim_set_hl(0, "CmpPmenu", { bg = "NONE" })
@@ -53,8 +53,8 @@ local function apply_transparency()
 
   -- Borders and separators
   vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#808080", bg = "NONE" })
-  vim.api.nvim_set_hl(0, "VertSplit", { fg = "#000000", bg = "NONE" })
-  vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#737aa2", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "VertSplit", { fg = "#808080", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#808080", bg = "NONE" })
 
   -- Diagnostics (no background)
   vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { fg = "#1abc9c", bg = "NONE" })

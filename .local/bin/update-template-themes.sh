@@ -19,23 +19,26 @@ background="${background}CC"
 
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-if command -v rofi &> /dev/null; then
+if command -v rofi &>/dev/null; then
     for i in "${XDG_CONFIG_HOME}"/rofi/templates/*.rasi; do
         [[ -f "$i" ]] || continue
-        sed -e "s/\${color1}/$color1/" \
-            -e "s/\${color3}/$color3/" \
-            -e "s/\${color6}/$color6/" \
-            -e "s/\${foreground}/$foreground/" \
-            -e "s/\${background}/$background/" "$i" > "${i/templates/themes}"
+        sed -e 's/\${color1}/'"$color1"'/g' \
+            -e 's/\${color3}/'"$color3"'/g' \
+            -e 's/\${color4}/'"$color4"'/g' \
+            -e 's/\${color6}/'"$color6"'/g' \
+            -e 's/\${foreground}/'"$foreground"'/g' \
+            -e 's/\${background}/'"$background"'/g' \
+            "$i" >"${i/templates/themes}"
     done
 fi
 
-if command -v dunst &> /dev/null; then
+if command -v dunst &>/dev/null; then
     killall dunst 2>/dev/null || true
-    sed -e "s/\${color1}/$color1/" \
-        -e "s/\${color3}/$color3/" \
-        -e "s/\${color6}/$color6/" \
-        -e "s/\${foreground}/$foreground/" \
-        -e "s/\${background}/$background/" \
-        "${XDG_CONFIG_HOME}/dunst/templates/dunstrc" > "${XDG_CONFIG_HOME}/dunst/dunstrc"
+    sed -e 's/\${color1}/'"$color1"'/g' \
+        -e 's/\${color3}/'"$color3"'/g' \
+        -e 's/\${color4}/'"$color4"'/g' \
+        -e 's/\${color6}/'"$color6"'/g' \
+        -e 's/\${foreground}/'"$foreground"'/g' \
+        -e 's/\${background}/'"$background"'/g' \
+        "${XDG_CONFIG_HOME}/dunst/templates/dunstrc" >"${XDG_CONFIG_HOME}/dunst/dunstrc"
 fi

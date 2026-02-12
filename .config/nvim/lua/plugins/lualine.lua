@@ -1,19 +1,19 @@
--- Load pywal theme with transparency modifications
-local function load_pywal_theme()
+-- Load lualine theme with transparency modifications
+local function load_lualine_theme()
   package.loaded["lualine.themes.pywal"] = nil
-  local ok, pywal_theme = pcall(require, "lualine.themes.pywal")
+  local ok, lualine_theme = pcall(require, "lualine.themes.pywal")
   if ok then
     for _, mode in pairs({ "normal", "insert", "visual", "replace", "command", "inactive" }) do
-      if pywal_theme[mode] then
-        if pywal_theme[mode].c then
-          pywal_theme[mode].c.bg = "NONE"
+      if lualine_theme[mode] then
+        if lualine_theme[mode].c then
+          lualine_theme[mode].c.bg = "NONE"
         end
-        if pywal_theme[mode].b then
-          pywal_theme[mode].b.bg = "NONE"
+        if lualine_theme[mode].b then
+          lualine_theme[mode].b.bg = "NONE"
         end
       end
     end
-    return pywal_theme
+    return lualine_theme
   end
   return nil
 end
@@ -24,10 +24,10 @@ return {
     event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = function(_, opts)
-      local pywal_theme = load_pywal_theme()
-      if pywal_theme then
+      local lualine_theme = load_lualine_theme()
+      if lualine_theme then
         opts.options = opts.options or {}
-        opts.options.theme = pywal_theme
+        opts.options.theme = lualine_theme
       end
 
       opts.options = opts.options or {}
@@ -38,12 +38,12 @@ return {
     config = function(_, opts)
       require("lualine").setup(opts)
 
-      vim.api.nvim_create_user_command("LualineReloadPywal", function()
-        local pywal_theme = load_pywal_theme()
-        if pywal_theme then
-          require("lualine").setup({ options = { theme = pywal_theme, globalstatus = true } })
+      vim.api.nvim_create_user_command("LualineReload", function()
+        local lualine_theme = load_lualine_theme()
+        if lualine_theme then
+          require("lualine").setup({ options = { theme = lualine_theme, globalstatus = true } })
         end
-      end, { desc = "Reload lualine pywal theme" })
+      end, { desc = "Reload lualine theme" })
 
       local function hide_on_dashboard()
         local ft = vim.bo.filetype

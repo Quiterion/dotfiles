@@ -1,16 +1,9 @@
-/*
-config yoinked from pessip at:
-  https://github.com/pessip/dotfiles/blob/master/.config/rofi/config.rasi
-Thanks for completing the theme!
-*/
-
-* {
-  active-background: ${color6};
+* {{
+  active-background: {color6};
   active-foreground: @foreground;
   normal-background: @background;
   normal-foreground: @foreground;
-  urgent-background: ${color1};
-  urgent-foreground: @foreground;
+  urgent-background: {color1}; urgent-foreground: @foreground;
 
   alternate-active-background: @background;
   alternate-active-foreground: @foreground;
@@ -19,89 +12,89 @@ Thanks for completing the theme!
   alternate-urgent-background: @background;
   alternate-urgent-foreground: @foreground;
 
-  selected-active-background: ${color1};
+  selected-active-background: {color1};
   selected-active-foreground: @foreground;
-  selected-normal-background: ${color6};
+  selected-normal-background: {color6};
   selected-normal-foreground: @foreground;
-  selected-urgent-background: ${color3};
+  selected-urgent-background: {color3};
   selected-urgent-foreground: @foreground;
 
   background-color: #00000000;
-  background: ${background};
-  foreground: ${foreground};
-  border-color: @foreground;
+  background: {background}CC;
+  foreground: {foreground};
+  border-color: {color4};
   text-color: @foreground;
   border: 0px;
   font: "Hack Nerd Font 11";
-}
+}}
 
-window {
+window {{
   border: 1px;
-  border-radius: 12px;
+  border-radius: 0px;
   width: 40%;
   height: 60%;
   children: [mainbox];
   background-color: @background;
   transparency: "real";
-}
+}}
 
-mainbox {
+mainbox {{
   children: [inputbar, message, horibox];
   margin: 2em 4ch;
   spacing: 2em;
-}
+}}
 
-horibox {
+horibox {{
   children: [listview];
   orientation: horizontal;
-}
+}}
 
-textbox-dummy {
+textbox-dummy {{
   expand: false;
-}
+}}
 
-listview {
+listview {{
   fixed-height: false;
   spacing: 0.5em;
   scrollbar: false;
   expand: true;
   margin: 0em 2ch;
   columns: 2;
-}
+}}
 
-element {
+element {{
   border-radius: 15px;
   padding: 0.25em 0;
-}
+}}
 
-element.selected {
+element.selected {{
   background-color: @active-background;
-}
+}}
 
-element-text {
+element-text {{
   expand: true;
   horizontal-align: 0.5;
-}
+}}
 
-element-icon {
+element-icon {{
   expand: false;
-}
+}}
 
-element-text.selected {
+element-text.selected {{
   background-color: @active-background;
   text-color: @background;
-}
+}}
 
-inputbar {
+inputbar {{
   children: [prompt,textbox-prompt-colon,entry];
-}
+}}
 
-entry {
+entry {{
   blink: false;
-}
+}}
 
-textbox-prompt-colon {
+textbox-prompt-colon {{
   expand:     false;
   str:        ":";
   margin:     0em 1ch 0em 0.5ch;
-}
+}}

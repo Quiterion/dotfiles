@@ -18,8 +18,15 @@ return {
             },
           },
         },
-        -- Enable ruff_lsp for linting
-        ruff_lsp = {},
+        -- Enable ruff for linting
+        ruff = {
+          init_options = {
+            settings = {
+              lineLength = 120,
+              quoteStyle = "preserve",
+            },
+          },
+        },
       },
     },
   },
@@ -31,7 +38,6 @@ return {
       ensure_installed = {
         "pyright",
         "ruff",
-        "ruff-lsp",
       },
     },
   },

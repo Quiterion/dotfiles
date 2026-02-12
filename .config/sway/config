@@ -53,7 +53,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec rofi -show run
 bindsym $mod+Shift+d exec wezterm start --class "codex-wezterm" -e '/home/quiterion/.local/bin/codex-qa.sh'
 # Claude scratchpad - just spawn, use $mod+minus to toggle if already exists
-bindsym $mod+Shift+c exec wezterm start --class "claude-scratchpad" -e /home/quiterion/.local/bin/claude-qa.sh
+bindsym $mod+Shift+c exec wezterm start --class "claude-scratchpad" -e '/home/quiterion/.local/bin/claude-qa.sh'
 
 # Change focus
 bindsym $mod+$left focus left
@@ -118,8 +118,9 @@ assign [class="^discord$"] 1
 assign [class="^slack$"] 1
 assign [class="^KeePassXC$"] 8
 for_window [class="Spotify"] move container to workspace 3
-for_window [app_id="codex-wezterm"] floating enable, resize set 520 350, move position center, move scratchpad, scratchpad show
-for_window [app_id="claude-scratchpad"] floating enable, resize set 660 315, move position center, move scratchpad, scratchpad show
+for_window [app_id="codex-wezterm"] floating enable, resize set 854 480, move scratchpad, scratchpad show, move position center
+for_window [app_id="claude-scratchpad"] floating enable, resize set 854 480, move scratchpad, scratchpad show, move position center
+for_window [app_id="^chrome-fcoeoabgfenejglbffodgkkbkcdhcgfn.*"] floating enable
 
 # Switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -198,7 +199,7 @@ gaps inner 1
 gaps top -1
 gaps left -1
 gaps right -1
-gaps bottom 0
+gaps bottom -1
 
 for_window [tiling] border pixel 1
 for_window [floating] border pixel 1
@@ -233,9 +234,10 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
 # Lock screen (random wallpaper)
 bindsym $mod+Shift+x exec $HOME/.local/bin/i3locker.sh
+exec swayidle -w before-sleep '$HOME/.local/bin/i3locker.sh'
 
 # Zen-ify windows
-bindsym $mod+Shift+z floating enable; resize set 1152 648; move position center
+bindsym $mod+Shift+z floating enable; resize set 1280 720; move position center
 
 # Center floating windows
 bindsym $mod+z move position center
@@ -260,6 +262,8 @@ seat * hide_cursor 3000
 
 # Network manager applet
 exec nm-applet --indicator
+
+exec_always import-gsettings
 
 # Apply pywal theme on startup - disabled for now, run manually
 # exec_always test -f ~/.cache/wal/colors.sh && ~/.local/bin/wallnew --apply
@@ -296,3 +300,5 @@ bar swaybar_command waybar
 include ~/.config/sway/outputs
 
 include /etc/sway/config.d/*
+
+xwayland enable

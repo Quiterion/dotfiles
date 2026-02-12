@@ -6,6 +6,7 @@
     font-family: "Hack Nerd Font";
     font-size: 13;
     min-height: 0;
+    padding: 1 0 0 0;
 }
 
 window#waybar {
@@ -23,7 +24,6 @@ window#waybar {
 #memory,
 #cpu,
 #clock {
-    padding: 1 0 0 0;
     margin: 0 16;
 }
 
@@ -38,13 +38,13 @@ window#waybar {
     color: @foreground;
     background: transparent;
     border: none;
+    box-shadow: none;
     border-radius: 0;
     padding: 0 12;
 }
 
 #workspaces button:hover {
     background: transparent;
-    box-shadow: none;
 }
 
 #workspaces button.focused {
